@@ -1,0 +1,31 @@
+:root {
+    --color-light-gray: #f7f7f7;
+    --color-middle-gray: #d9d9d9;
+    --color-thick-gray: #a6a6a6;
+    --color-silver: #d9d9d9;
+    --color-pale-blue: #eff7fe;
+    --color-light-sky-blue: #ccecff;
+    --color-sky-blue: #85c6f7;
+    --color-cornflower-blue: #88adfe;
+    --color-azure-blue: #317bff;
+    --color-cobalt-blue: #0b4da2;
+    --color-navy-blue: #002060;
+    --color-light-coral: #e26262;
+    --color-note: #c31d1e;
+}
+
+.container {
+    display: flex;
+    height: 87vh;
+    margin: 1.25em;
+}
+
+.btn-area {
+    display: flex;
+    gap: 7px;
+    margin-bottom: 0.3em;
+}
+
+.hide {
+    display: none !important;
+}
