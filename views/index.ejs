@@ -37,19 +37,20 @@
 </head>
 <body> 
     <!-- header -->
-    <!-- <% if (components !== 'login' && !components.includes('popup')) { %>
-        <%- include('share/header.ejs') %>
-    <% } %> -->
+
 
     <!-- body -->
     <div class="container">
         <!-- login -->
         <% if (components === 'login') { %>
             <%- include('login.ejs') %>
-        <% } %>        
+        <% } %>   
+        
         <!-- landing -->
         <% if (components === 'main') { %> <%- include('main.ejs') %> <% } %> 
         
+        <!-- USER -->
+        <% if (components === 'user') { %> <%- include('user.ejs') %> <% } %> 
         <!-- flight-management -->
         <!-- <% if (components.startsWith('flight-management')) { %>
             <% if (!components.includes('popup')) { %>

@@ -1,8 +1,14 @@
 <style>
+    .login-wrap {
+        border: 0px;
+        border-radius: 10px;
+        background-color: var(--color-main-background);
+        padding: 10%;
+    }
+
     .input-wrap {
         display: flex;
         flex-direction: column;
-        width: 21.5vw;
     }
 
     .input-row {
@@ -28,7 +34,14 @@
             </div>
         </div>
         <div class="btn-area">
-            <button><i class="fa-solid fa-arrow-right-to-bracket"></i> LOGIN</button>
+            <button onclick="redircet()">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i> LOGIN
+            </button>
         </div>
     </div>
 </div>
+<script>
+    function redircet() {
+        location.href = '/';
+    }
+</script>

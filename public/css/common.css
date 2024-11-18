@@ -12,6 +12,14 @@
     --color-navy-blue: #002060;
     --color-light-coral: #e26262;
     --color-note: #c31d1e;
+    --color-main-background: #E8DAEF;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-size: clamp(13px, 0.7vw, 16px);
 }
 
 .container {
