@@ -1,3 +1,4 @@
+const sqlite3 = require('sqlite3').verbose();
 const express = require('express');
 const { sequelize } = require('./model');
 const path = require('path');
@@ -23,6 +24,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 //     .sync({ force: true }) // force: true이면 기존 데이터 삭제 후 재생성
 //     .then(() => console.log('DB 연결 성공'))
 //     .catch((err) => console.error('DB 연결 실패:', err));
+
+let db = new sqlite3.Database('./app.db', (err) => {
+    if (err) {
+        console.error('Failed to connect to the database:', err.message);
+        return;
+    }
+    console.log('Connected to the SQLite database.');
+});
 
 // 서버 실행
 app.listen(PORT, () => {
