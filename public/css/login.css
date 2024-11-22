@@ -1,0 +1,110 @@
+/* 로그인 컨테이너 */
+.login-container {
+    width: 20vw; /* 뷰포트 너비의 90% 사용 */
+    padding: 2rem; /* rem 단위로 간격 설정 */
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* 둥근 테두리 */
+    text-align: center;
+}
+
+/* 로고 스타일 */
+.logo-wrap h1 {
+    font-size: 2rem;
+    color: #4a90e2;
+    margin-bottom: 2rem;
+}
+
+/* 소셜 로그인 */
+.social-login {
+    margin-top: 2rem;
+}
+
+.social-login p {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    color: #4a90e2;
+}
+
+.social-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.social-buttons button {
+    flex: 1; /* 버튼 너비 균등 분배 */
+    padding: 0.8rem; /* rem 단위로 패딩 설정 */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.social-buttons .google {
+    background: #db4437;
+    color: #ffffff;
+}
+
+.social-buttons .kakao {
+    background: #fee500;
+    color: #3c1e1e;
+}
+
+.social-buttons .naver {
+    background: #03c75a;
+    color: #ffffff;
+}
+
+/* 회원가입 영역 */
+.signup {
+    margin-top: 1rem; /* 로그인 버튼 아래 여백 */
+    font-size: 0.9rem;
+    color: #4a90e2;
+}
+
+.signup p {
+    margin: 0;
+    color: #666;
+}
+
+.signup-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #4a90e2;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid #4a90e2;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.signup-link:hover {
+    background-color: #4a90e2;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .login-container {
+        width: 80vw; /* 화면 너비의 95% 사용 */
+        padding: 1.5rem;
+    }
+
+    .social-buttons {
+        flex-direction: column; /* 버튼을 세로로 나열 */
+        gap: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 1rem;
+        border-radius: 0.5rem; /* 더 작게 둥글림 */
+    }
+
+    .logo-wrap h1 {
+        font-size: 1.5rem; /* 로고 텍스트 크기 축소 */
+    }
+}

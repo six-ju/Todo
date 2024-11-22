@@ -1,47 +1,69 @@
+<link rel="stylesheet" href="/css/login.css" />
+
 <style>
-    .login-wrap {
-        border: 0px;
-        border-radius: 10px;
-        background-color: var(--color-main-background);
-        padding: 10%;
+    input {
+        margin: 5px 0; /* 기본 중간 값 */
+    }
+    /* 첫 번째 input */
+    input:first-child {
+        margin: 10px 0 5px 0;
     }
 
-    .input-wrap {
-        display: flex;
-        flex-direction: column;
+    /* 마지막 input */
+    input:last-child {
+        margin: 5px 0 10px 0;
     }
 
-    .input-row {
-        display: flex;
-        flex-direction: row;
-        margin-bottom: 10px;
-    }
-
-    label {
-        width: 2.3vw;
+    img {
+        width: 3.2vw;
+        height: 6.6vh;
     }
 </style>
-<div>
+<div class="login-container">
+    <div class="logo-wrap">
+        <h1>TODO</h1>
+    </div>
     <div class="login-wrap">
-        <div class="input-wrap">
-            <div class="input-row">
-                <label for="id">ID : </label>
-                <input type="text" name="id" id="id" />
+        <div class="social-login">
+            <p>소셜 로그인</p>
+            <div class="social-buttons">
+                <div>
+                    <img
+                        src="/image/google-login1.png"
+                        alt="google Login"
+                        id="google"
+                        onclick="googleLogin(this)"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="/image/kakao-login1.png"
+                        alt="kakao Login"
+                        id="kakao"
+                        onclick="location.href='/auth/kakao'"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="/image/naver-login1.png"
+                        alt="naver Login"
+                        id="naver"
+                        onclick="naverLogin(this)"
+                    />
+                </div>
             </div>
-            <div class="input-row">
-                <label for="PW">PW : </label>
-                <input type="text" name="PW" id="PW" />
-            </div>
-        </div>
-        <div class="btn-area">
-            <button onclick="redircet()">
-                <i class="fa-solid fa-arrow-right-to-bracket"></i> LOGIN
-            </button>
         </div>
     </div>
 </div>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" integrity="sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka" crossorigin="anonymous"></script>
 <script>
-    function redircet() {
-        location.href = '/';
+    function googleLogin() {
+
+    }
+    function kakaoLogin() {
+        const id = e.id;
+    }
+    function naverLogin() {
+        const id = e.id;
     }
 </script>
