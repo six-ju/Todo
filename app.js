@@ -8,10 +8,14 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const routes = require('./routes');
+const authRouter = require('./routes/auth.routes');
 const ejsRouter = require('./routes/ejs.routes');
 
-app.use(express.json());
+app.use('/auth', authRouter);
 app.use('/api', routes);
 app.use(ejsRouter);
 
