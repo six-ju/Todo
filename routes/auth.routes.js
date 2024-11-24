@@ -11,5 +11,7 @@ router.get("/kakao/callback", authController.kakaoCallback);
 
 // 쿠키 부여
 router.get("/login", authController.login);
+// 로그아웃(쿠키 삭제)
+router.get("/logout", authController.logout);
 
 module.exports = router;

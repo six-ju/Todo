@@ -12,14 +12,13 @@ class AuthService {
       if (checkUser) {
         return checkUser;
       } else {
+        // 2. 기존에 가입하지 않은 유저면 DB 저장 및 로그인
         const signIn = await this.AuthRepository.signIn(userInfo);
 
         if (!signIn) {
           throw new Error("회원가입 중 오류가 발생했습니다.");
         }
       }
-      // 2. 기존에 가입하지 않은 유저면 DB 저장 및 로그인
-      // 3. 이전에 가입한여 같은 소셜 같은 이름으로 로그인한기록이 있으면 로그인
     } catch (error) {
       throw error;
     }

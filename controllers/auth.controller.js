@@ -52,8 +52,7 @@ class AuthController {
         await this.login(req, res, userInfo);
       }
     } catch (error) {
-      console.error("Error during Kakao login:", error);
-      res.status(500).send("Kakao login failed!");
+      res.status(401).send("Kakao login failed!");
     }
   };
 
@@ -65,6 +64,13 @@ class AuthController {
       signed: true,
     });
     res.redirect("/");
+  };
+
+  logout = async (req, res) => {
+    req.logout((err) => {
+      res.clearCookie("accessToken");
+      res.redirect("/login");
+    });
   };
 }
 
