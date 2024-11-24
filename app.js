@@ -2,11 +2,26 @@ const sqlite3 = require('sqlite3').verbose();
 const express = require('express');
 const { sequelize } = require('./model');
 const path = require('path');
+const passport = require('passport')
+const session = require("express-session");
 
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// 세션 설정
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || 'default',
+        resave: false,
+        saveUninitialized: true,
+    })
+);
+
+// Passport 초기화
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
