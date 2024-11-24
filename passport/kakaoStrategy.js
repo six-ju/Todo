@@ -1,35 +1,47 @@
-const KakaoStrategy = require("passport-kakao").Strategy;
 const passport = require("passport");
+const KakaoStrategy = require("passport-kakao").Strategy;
+const { User } = require("./models"); // Sequelize 모델 가져오기
 
-passport.use(
+module.exports = () => {
+  passport.use(
     new KakaoStrategy(
-        {
-            clientID: process.env.KAKAO_REST_API,
-            callbackURL: process.env.KAKAO_REDIRECT_URI,
-        },
-        async (accessToken, refreshToken, profile, done) => {
-            try {
-                // 사용자 정보를 처리하는 로직
-                const user = {
-                    id: profile.id,
-                    username: profile.username || profile.displayName,
-                    email: profile._json && profile._json.kakao_account.email,
-                };
-                return done(null, user);
-            } catch (error) {
-                return done(error);
-            }
+      {
+        clientID: process.env.KAKAO_REST_API, // Kakao REST API 키
+        callbackURL: process.env.KAKAO_REDIRECT_URI, // 리다이렉트 URI
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          console.log("Kakao profile:", profile);
+
+          // 사용자 정보 처리 (DB 저장 로직 추가 가능)
+          let user = await User.findOne({ where: { kakaoId: profile.id } });
+
+          if (!user) {
+            user = await User.create({
+              kakaoId: profile.id,
+              nickname: profile.username,
+              // 추가 필드 저장 가능
+            });
+          }
+
+          return done(null, user);
+        } catch (err) {
+          return done(err);
         }
+      }
     )
-);
+  );
 
-// 세션을 위한 직렬화 & 역직렬화 설정
-passport.serializeUser((user, done) => {
-    done(null, user);
-});
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
 
-passport.deserializeUser((obj, done) => {
-    done(null, obj);
-});
-
-module.exports = passport;
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await User.findOne({ where: { id } });
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
+  });
+};
