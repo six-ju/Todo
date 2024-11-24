@@ -21,11 +21,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const routes = require("./routes");
+const { auth } = require("./middleware/auth");
 const authRouter = require("./routes/auth.routes");
 const ejsRouter = require("./routes/ejs.routes");
 
 app.use("/auth", authRouter);
-app.use("/api", routes);
+app.use("/api", auth, routes);
 app.use(ejsRouter);
 
 app.set("views", path.join(__dirname, "views"));

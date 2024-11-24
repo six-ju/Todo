@@ -21,9 +21,9 @@ module.exports = {
       return {
         type: true,
         user: {
-          NAME: user.NAME,
-          SOCIALTYPE: user.socialType,
-          EMAIL: user.EMAIL,
+          NAME: decoded.user.NAME,
+          SOCIALTYPE: decoded.user.SOCIALTYPE,
+          EMAIL: decoded.user.EMAIL,
         },
       };
     } catch (err) {
