@@ -22,7 +22,7 @@ class AuthRepository {
 
   signIn = async (userInfo) => {
     try {
-      return await new Promise((reject, resolve) => {
+      return await new Promise((resolve, reject) => {
         db.run(
           `INSERT INTO LOGIN (NAME, SOCIALTYPE, EMAIL) 
                 VALUES (? , ? , ?)`,

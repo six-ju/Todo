@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const { sequelize } = require("./model");
+const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const path = require("path");
 const db = require("./database/db");
@@ -11,6 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(session({ secret: "defalt", resave: false, saveUninitialized: true }));
+app.use(cookieParser(process.env.COOKIE_SECRET || "defaultSecretKey"));
 
 app.use(passport.initialize());
 app.use(passport.session());

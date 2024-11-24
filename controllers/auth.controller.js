@@ -1,6 +1,7 @@
 const axios = require("axios");
 const qs = require("qs");
 const AuthService = require("../services/auth.service");
+const jwt = require("../utill/jwt");
 
 class AuthController {
   AuthService = new AuthService();
@@ -26,6 +27,7 @@ class AuthController {
       );
 
       const accessToken = tokenResponse.data.access_token;
+
       // 2. 사용자 정보 요청
       const userInfoResponse = await axios.get(
         "https://kapi.kakao.com/v2/user/me",
@@ -46,13 +48,23 @@ class AuthController {
           socialType: "KAKAO",
         };
 
-        const user = this.AuthService.user(userInfo);
+        await this.AuthService.user(userInfo);
+        await this.login(req, res, userInfo);
       }
-      //res.send(`<h1>Welcome, ${kakaoUser.kakao_account.profile.nickname}!</h1>`);
     } catch (error) {
       console.error("Error during Kakao login:", error);
       res.status(500).send("Kakao login failed!");
     }
+  };
+
+  login = async (req, res, userInfo) => {
+    const accessToken = jwt.sign(userInfo);
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: true,
+      signed: true,
+    });
+    res.redirect("/");
   };
 }
 

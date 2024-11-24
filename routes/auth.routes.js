@@ -9,4 +9,7 @@ router.get("/kakao", authController.kakao);
 // 콜백 라우트
 router.get("/kakao/callback", authController.kakaoCallback);
 
+// 쿠키 부여
+router.get("/login", authController.login);
+
 module.exports = router;
