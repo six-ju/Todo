@@ -1,27 +1,30 @@
 <h1>나는 유저</h1>
 <button class="logout">로그아웃</button>
 <script>
-  $(document).ready(function () {
-    userInfo();
-
-    $(".logout").click(function () {
-      location.href = "/auth/logout";
+    $(document).ready(function () {
+        //userInfo();
+        const name = $('#name').text();
+        const social = $('#social').text();
+        const email = $('#email').text();
+        $('h1').text(`나는${name} 나의 이메일은 ${email} 가입경로는 ${social}`);
+        $('.logout').click(function () {
+            location.href = '/auth/logout';
+        });
     });
-  });
 
-  function userInfo() {
-    $.ajax({
-      url: "/api/mypage",
-      method: "GET",
-      success: function (data) {
-        console.log(data.info);
-        $("h1").text(
-          `나는${data.info.NAME} 나의 이메일은 ${data.info.EMAIL} 가입경로는 ${data.info.SOCIALTYPE}`
-        );
-      },
-      error: function (error) {
-        alert(error.responseJSON);
-      },
-    });
-  }
+    function userInfo() {
+        $.ajax({
+            url: '/api/mypage',
+            method: 'GET',
+            success: function (data) {
+                console.log(data.info);
+                $('h1').text(
+                    `나는${data.info.NAME} 나의 이메일은 ${data.info.EMAIL} 가입경로는 ${data.info.SOCIALTYPE}`,
+                );
+            },
+            error: function (error) {
+                alert(error.responseJSON);
+            },
+        });
+    }
 </script>

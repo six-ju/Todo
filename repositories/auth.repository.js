@@ -9,7 +9,7 @@ class AuthRepository {
       return await new Promise((resolve, reject) => {
         db.get(
           `SELECT * FROM LOGIN WHERE EMAIL = ? AND SOCIALTYPE = ?`,
-          [userInfo.EMAIL, userInfo.socialType],
+          [userInfo.EMAIL, userInfo.SOCIALTYPE],
           (err, row) => {
             resolve(row ? true : false);
           }
@@ -22,11 +22,12 @@ class AuthRepository {
 
   signIn = async (userInfo) => {
     try {
+      console.log(userInfo)
       return await new Promise((resolve, reject) => {
         db.run(
           `INSERT INTO LOGIN (NAME, SOCIALTYPE, EMAIL) 
                 VALUES (? , ? , ?)`,
-          [userInfo.NAME, userInfo.socialType, userInfo.EMAIL],
+          [userInfo.NAME, userInfo.SOCIALTYPE, userInfo.EMAIL],
           function () {
             resolve(this.lastID ? true : false);
           }

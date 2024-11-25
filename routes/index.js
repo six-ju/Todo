@@ -5,6 +5,6 @@ const mypage = require("./mypage.route");
 const router = express.Router();
 
 router.use("/users", userRoutes); // 사용자 라우터
-router.use("/mypage", mypage); // 사용자 라우터
+router.use("/mypage", mypage); // 마이페이지 라우터
 
 module.exports = router;

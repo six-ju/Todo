@@ -6,7 +6,7 @@ module.exports = {
     const payload = {
       user: {
         NAME: user.NAME,
-        SOCIALTYPE: user.socialType,
+        SOCIALTYPE: user.SOCIALTYPE,
         EMAIL: user.EMAIL,
       },
     };
