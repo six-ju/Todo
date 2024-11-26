@@ -14,6 +14,11 @@ router.get("/naver", authController.naver);
 // 콜백 라우트
 router.get("/naver/callback", authController.naverCallback);
 
+// 토큰 받기
+router.get("/google", authController.google);
+// 콜백 라우트
+router.get("/google/callback", authController.googleCallback);
+
 // 쿠키 부여
 router.get("/login", authController.login);
 // 로그아웃(쿠키 삭제)

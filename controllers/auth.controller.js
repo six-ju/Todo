@@ -96,6 +96,54 @@ class AuthController {
         }
     };
 
+    google = async (req, res, next) => {
+        const state = crypto.randomBytes(16).toString('hex');
+        const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}&response_type=code&scope=openid%20email%20profile&state=${state}`;
+
+        res.redirect(googleAuthUrl);
+    };
+
+    googleCallback = async (req, res, next) => {
+        const { code } = req.query;
+
+        const tokenResponse = await axios.post(
+            'https://oauth2.googleapis.com/token',
+            {
+                client_id: process.env.GOOGLE_CLIENT_ID,
+                client_secret: process.env.GOOGLE_CLIENT_SECRET,
+                redirect_uri: process.env.GOOGLE_REDIRECT_URI,
+                grant_type: 'authorization_code', // 정확한 grant_type 설정
+                code: code,
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded', // 반드시 설정
+                },
+            },
+        );
+
+        const { access_token, id_token } = tokenResponse.data;
+
+        // 사용자 정보 요청
+        const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+            },
+        });
+
+        const data = userInfoResponse.data;
+        if (data.name) {
+            const userInfo = {
+                NAME: data.name,
+                EMAIL: data.email,
+                SOCIALTYPE: 'GOOGLE',
+            };
+
+            await this.AuthService.user(userInfo);
+            await this.login(req, res, userInfo);
+        }
+    };
+
     login = async (req, res, userInfo) => {
         const accessToken = jwt.sign(userInfo);
         res.cookie('accessToken', accessToken, {
