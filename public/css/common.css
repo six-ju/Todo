@@ -12,18 +12,42 @@
     --color-navy-blue: #002060;
     --color-light-coral: #e26262;
     --color-note: #c31d1e;
-    --color-main-background: #e8daef;
+    --color-main-background: #e8daef; /* 메인 배경색 */
+    --color-header-background: #d2b4de; /* 헤더 배경색 */
+    --color-header-text: #ffffff; /* 헤더 텍스트 색상 */
+      /* 버튼 색상 */
+      --button-save: #4CAF50; /* 저장 버튼 */
+      --button-save-hover: #45A049; /* 저장 버튼 호버 */
+      --button-delete: #F44336; /* 삭제 버튼 */
+      --button-delete-hover: #E53935; /* 삭제 버튼 호버 */
+      --button-cancel: #9E9E9E; /* 취소 버튼 */
+      --button-cancel-hover: #757575; /* 취소 버튼 호버 */
+      --button-disabled: #E0E0E0; /* 비활성화 버튼 */
+      --button-disabled-text: #A0A0A0; /* 비활성화 텍스트 */
+}
+
+.main-text{
+    color: var(--color-header-background) !important;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #eaf4fc, #f6f9fe);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-color: #edeef3;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-size: clamp(13px, 0.7vw, 16px);
+    overflow: hidden;
+}
+
+.content{
+    background-color: #d2b4de;
+    border-radius: 15px;
+    padding: 1.85em;
+    overflow-x: auto;
+    position: relative;
+    margin-top: 15px;
+    max-height: 3000px;
+    height: 81vh;
 }
 
 .btn-area {
@@ -64,4 +88,48 @@ body {
 
 .alert-btn.cancel:hover {
     opacity: 1;
+}
+
+/* BUTTON */
+.button {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-save {
+    background-color: var(--button-save);
+    color: #ffffff;
+}
+
+.button-save:hover {
+    background-color: var(--button-save-hover);
+}
+
+.button-delete {
+    background-color: var(--button-delete);
+    color: #ffffff;
+}
+
+.button-delete:hover {
+    background-color: var(--button-delete-hover);
+}
+
+.button-cancel {
+    background-color: var(--button-cancel);
+    color: #ffffff;
+}
+
+.button-cancel:hover {
+    background-color: var(--button-cancel-hover);
+}
+
+.button-disabled {
+    background-color: var(--button-disabled);
+    color: var(--button-disabled-text);
+    cursor: not-allowed;
 }
