@@ -18,6 +18,11 @@
         width: 62.2px;
         height: 59.6px;
         cursor: pointer;
+        transition: transform 0.3s ease; /* 마우스 오버 효과 */
+    }
+    
+    img:hover {
+        transform: scale(1.1); /* 마우스 오버 시 약간 확대 */
     }
 </style>
 <div class="login-container">
@@ -56,11 +61,13 @@
         </div>
     </div>
 </div>
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" integrity="sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka" crossorigin="anonymous"></script>
+<script
+    src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"
+    integrity="sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka"
+    crossorigin="anonymous"
+></script>
 <script>
-    function googleLogin() {
-
-    }
+    function googleLogin() {}
     function kakaoLogin() {
         const id = e.id;
     }

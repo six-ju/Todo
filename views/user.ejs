@@ -1,5 +1,23 @@
+<style>
+    .date-filter{
+        text-align: center;
+        display: flex;
+        margin: 0px 40%;
+    }
+
+    .filter-btn{
+        padding: 0.7em;
+        flex: 1;
+        margin: 0;
+        border:0;
+    }
+</style>
 <div class="content">
-    <div></div>
+    <div class="date-filter">
+        <button class="filter-btn" data-period="day">Day</button>
+        <button class="filter-btn" data-period="week">Week</button>
+        <button class="filter-btn" data-period="month">Month</button>
+    </div>
 </div>
 <script>
     $(document).ready(function () {

@@ -1,6 +1,6 @@
 /* 로그인 컨테이너 */
 .login-container {
-    width: 600px; /* 뷰포트 너비의 90% 사용 */
+    width: 500px; /* 뷰포트 너비의 90% 사용 */
     padding: 2rem; /* rem 단위로 간격 설정 */
     background: #ffffff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
