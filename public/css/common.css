@@ -54,6 +54,12 @@ body {
     margin-top: 15px;
 }
 
+@media (max-width: 600px) {
+    .content{
+        margin: 0px auto;
+    }
+}
+
 .btn-area {
     display: flex;
     gap: 7px;
