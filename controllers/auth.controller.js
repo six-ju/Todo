@@ -40,13 +40,13 @@ class AuthController {
 
             // 3. SQLite에 사용자 이름 저장
             if (kakaoUser) {
-                const userInfo = {
+                let userInfo = {
                     NAME: kakaoUser.profile.nickname,
                     EMAIL: kakaoUser.email,
                     SOCIALTYPE: 'KAKAO',
                 };
 
-                await this.AuthService.user(userInfo);
+                userInfo = await this.AuthService.user(userInfo);
                 await this.login(req, res, userInfo);
             }
         } catch (error) {
@@ -85,13 +85,13 @@ class AuthController {
 
         const data = userInfoResponse.data;
         if (data.message === 'success') {
-            const userInfo = {
+            let userInfo = {
                 NAME: data.response.name,
                 EMAIL: data.response.email,
                 SOCIALTYPE: 'NAVER',
             };
 
-            await this.AuthService.user(userInfo);
+            userInfo = await this.AuthService.user(userInfo);
             await this.login(req, res, userInfo);
         }
     };
@@ -133,13 +133,13 @@ class AuthController {
 
         const data = userInfoResponse.data;
         if (data.name) {
-            const userInfo = {
+            let userInfo = {
                 NAME: data.name,
                 EMAIL: data.email,
                 SOCIALTYPE: 'GOOGLE',
             };
 
-            await this.AuthService.user(userInfo);
+            userInfo = await this.AuthService.user(userInfo);
             await this.login(req, res, userInfo);
         }
     };

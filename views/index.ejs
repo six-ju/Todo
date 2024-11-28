@@ -62,6 +62,9 @@
         
         <!-- USER -->
         <% if (components === 'user') { %> <%- include('user.ejs') %> <% } %> 
+
+        <!-- USER -->
+        <% if (components === 'main-service/index') { %> <%- include('main-service/index.ejs') %> <% } %> 
         <!-- flight-management -->
         <!-- <% if (components.startsWith('flight-management')) { %>
             <% if (!components.includes('popup')) { %>
@@ -70,6 +73,7 @@
             <%- include(components + '.ejs') %>
         <% } %> -->
         <% if (components !== 'login') { %>
+            <div id="id" hidden><%= user.ID%></div>
             <div id="name" hidden><%= user.NAME%></div>
             <div id="social" hidden><%= user.SOCIALTYPE%></div>
             <div id="email" hidden><%= user.EMAIL%></div>

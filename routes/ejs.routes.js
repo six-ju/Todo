@@ -16,7 +16,7 @@ router.get('/', auth,(req, res, next) => {
     if (!accessToken) {
         return res.redirect('/login');
     }
-    res.render('index.ejs', { components: 'user' });
+    res.render('index.ejs', { components: 'main-service/index' });
 });
 
 module.exports = router;

@@ -15,18 +15,18 @@
     --color-main-background: #e8daef; /* 메인 배경색 */
     --color-header-background: #d2b4de; /* 헤더 배경색 */
     --color-header-text: #ffffff; /* 헤더 텍스트 색상 */
-      /* 버튼 색상 */
-      --button-save: #4CAF50; /* 저장 버튼 */
-      --button-save-hover: #45A049; /* 저장 버튼 호버 */
-      --button-delete: #F44336; /* 삭제 버튼 */
-      --button-delete-hover: #E53935; /* 삭제 버튼 호버 */
-      --button-cancel: #9E9E9E; /* 취소 버튼 */
-      --button-cancel-hover: #757575; /* 취소 버튼 호버 */
-      --button-disabled: #E0E0E0; /* 비활성화 버튼 */
-      --button-disabled-text: #A0A0A0; /* 비활성화 텍스트 */
+    /* 버튼 색상 */
+    --button-save: #4caf50; /* 저장 버튼 */
+    --button-save-hover: #45a049; /* 저장 버튼 호버 */
+    --button-delete: #f44336; /* 삭제 버튼 */
+    --button-delete-hover: #e53935; /* 삭제 버튼 호버 */
+    --button-cancel: #9e9e9e; /* 취소 버튼 */
+    --button-cancel-hover: #757575; /* 취소 버튼 호버 */
+    --button-disabled: #e0e0e0; /* 비활성화 버튼 */
+    --button-disabled-text: #a0a0a0; /* 비활성화 텍스트 */
 }
 
-.main-text{
+.main-text {
     color: var(--color-header-background) !important;
 }
 
@@ -39,15 +39,19 @@ body {
     overflow: hidden;
 }
 
-.content{
-    background-color: #d2b4de;
+.content {
+    background-color: #edeef3;
     border-radius: 15px;
     padding: 1.85em;
-    overflow-x: auto;
+    overflow: hidden;
     position: relative;
     margin-top: 15px;
     max-height: 3000px;
     height: 81vh;
+    text-align: center;
+    margin: 0px 36vw;
+    min-width: 315px;
+    margin-top: 15px;
 }
 
 .btn-area {

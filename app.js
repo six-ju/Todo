@@ -1,6 +1,5 @@
 const express = require("express");
 const session = require("express-session");
-const { sequelize } = require("./model");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const path = require("path");
@@ -32,12 +31,6 @@ app.use(ejsRouter);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
-
-// DB 연결
-// sequelize
-//     .sync({ force: true }) // force: true이면 기존 데이터 삭제 후 재생성
-//     .then(() => console.log('DB 연결 성공'))
-//     .catch((err) => console.error('DB 연결 실패:', err));
 
 // 서버 실행
 app.listen(PORT, () => {

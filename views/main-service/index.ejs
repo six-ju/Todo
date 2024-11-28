@@ -1,0 +1,246 @@
+<style>
+    .date-filter {
+        text-align: center;
+        display: flex;
+        gap: 15px;
+    }
+
+    .filter-btn {
+        padding: 0.7em;
+        flex: 1;
+        margin: 0;
+        border: 0;
+        border-radius: 15px;
+        background-color: var(--color-header-background);
+    }
+
+    .filter-btn:hover {
+        background-color: var(--color-header-background);
+        cursor: pointer;
+    }
+
+    .todo-list .title {
+        display: flex;
+        border: 1px solid #d2b4de;
+        border-radius: 15px 15px 0 0;
+        margin-top: 4vh;
+        font-size: 1.5em;
+        justify-content: center;
+    }
+
+    .list-wrap {
+        height: 500px;
+        border: 1px solid #d2b4de;
+    }
+
+    .todo-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        position: relative;
+    }
+
+    /* 체크박스 스타일 */
+    .todo-checkbox {
+        margin-right: 15px;
+        transform: scale(1.2);
+    }
+
+    /* 텍스트 스타일 */
+    .todo-text {
+        font-size: 1.2em;
+        transition: color 0.4s ease, text-decoration 0.4s ease;
+    }
+
+    /* 체크박스가 체크되었을 때 효과 */
+    .todo-checkbox:checked + .todo-text {
+        color: #999;
+        text-decoration: line-through;
+    }
+
+    .input-todo {
+        width: 100%;
+        margin: 0;
+        border: 1px solid #d2b4de;
+        border-top: 0;
+        padding: 1.1em 1.2em;
+        font-size: 1.2em;
+        background-color: #edeef3;
+        box-sizing: border-box;
+    }
+
+    .text-area {
+        position: relative;
+    }
+
+    .text-area label {
+        position: absolute;
+        right: 20px;
+        top: 16px;
+        font-size: 1.3em;
+    }
+
+    .todo-date {
+        margin: 0 0 0 auto;
+        color: #8f8e8e;
+    }
+
+    .delete-icon {
+        margin: 0 0 0 10px;
+    }
+
+    @keyframes slideOut {
+        0% {
+            transform: translateX(0); /* 초기 위치 */
+            opacity: 1; /* 완전히 보임 */
+        }
+        100% {
+            transform: translateX(100%); /* 오른쪽으로 이동 */
+            opacity: 0; /* 완전히 투명 */
+        }
+    }
+
+    /* 삭제 중일 때 적용할 클래스 */
+    .todo-item.removing {
+        animation: slideOut 0.5s ease forwards; /* 0.5초 동안 오른쪽으로 이동 */
+    }
+
+    .no-list {
+        height: 500px;
+        padding: 42% 0 0 0;
+        box-sizing: border-box;
+        font-size: 1.5em;
+        background-color: #cfcbcb36;
+        color: #636161;
+    }
+</style>
+<div class="content">
+    <div class="date-filter">
+        <button class="filter-btn" data-period="today">TODAY</button>
+        <button class="filter-btn" data-period="week">WEEK</button>
+        <button class="filter-btn" data-period="month">MONTH</button>
+    </div>
+    <div class="todo-list">
+        <div class="title">ToDo List</div>
+        <!-- toDo List  -->
+        <div class="list-wrap"></div>
+        <div class="text-area">
+            <input type="text" class="input-todo" placeholder="ToDo" maxlength="20" />
+            <label class="icon-click"><i class="fa-solid fa-arrow-up-long"></i></label>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        const loginUserId = $('#id').text();
+        $('.filter-btn').click(function () {
+            const date = $(this).data('period');
+            if (date === 'day') {
+                console.log(date);
+            } else if (date === 'week') {
+                console.log(date);
+            } else if (date === 'month') {
+                console.log(date);
+            }
+        });
+
+        gettoDoList(loginUserId);
+
+        // toDo 리스트 저장
+        $('.icon-click').click(function () {
+            if ($('.list-wrap .no-list').length === 1) {
+                $('.no-list').remove();
+            }
+
+            const temp = `temp-${moment(Date()).format('YYYY-MM-DDhh:mm:ss')}`;
+            const date = moment(Date()).format('YYYY-MM-DD');
+            const text = $('.input-todo').val();
+            const list = `<div class="todo-item">
+                            <input type="checkbox" id=${temp} data-temp=${temp} class="todo-checkbox" />
+                            <label for=${temp} class="todo-text">${text}</label>
+                            <label class="todo-date">${date}</label>
+                            <label class="delete-icon"><i class="fa-regular fa-trash-can"></i></label>
+                        </div>`;
+
+            $('.input-todo').val('');
+            $('.list-wrap').append(list);
+
+            const listData = {
+                userId: loginUserId,
+                content: text,
+                startDate: date,
+            };
+
+            savetoDolist(listData);
+        });
+
+        // 삭제버튼 클릭시
+        $(document).on('click', '.delete-icon', function () {
+            const $todoItem = $(this).parent();
+            $todoItem.addClass('removing');
+            $todoItem.on('animationend', function () {
+                $todoItem.remove();
+                const length = $('.list-wrap .todo-item').length;
+                if (length === 0) {
+                    const list = `<div class="no-list">대문자 J답게 가보자고~~</div>`;
+                    $('.list-wrap').append(list);
+                }
+            });
+        });
+    });
+
+    function gettoDoList(loginUserId) {
+        $.ajax({
+            url: `/api/todolist/${loginUserId}`,
+            method: 'GET',
+            success: function (data) {
+                console.log(data);
+                if (data) {
+                    let list = ``;
+                    data.forEach((todo) => {
+                        list += `<div class="todo-item">
+                            <input type="checkbox" id=${todo.id} class="todo-checkbox" />
+                            <label for=${todo.id} class="todo-text">${todo.content}</label>
+                            <label class="todo-date">${todo.startDate}</label>
+                            <label class="delete-icon"><i class="fa-regular fa-trash-can"></i></label>
+                        </div>`;
+                    });
+
+                    $('.list-wrap').append(list);
+                } else {
+                    const list = `<div class="no-list">대문자 J답게 가보자고~~</div>`;
+                    $('.list-wrap').append(list);
+                }
+            },
+            error: function (error) {
+                generalAlert('리스트 가져오는중 오류가 발생했습니다.');
+            },
+        });
+    }
+
+    function savetoDolist(listData) {
+        $.ajax({
+            url: '/api/todolist',
+            method: 'POST',
+            data: { listData },
+            success: function (data) {
+                const id = data.lastInsertRowid;
+                const $lastTodoItem = $('.list-wrap .todo-item').last(); 
+                const $checkbox = $lastTodoItem.find('.todo-checkbox');
+                const $label = $lastTodoItem.find('.todo-text'); 
+
+                // ID 변경
+                $checkbox.prop('id', `${id}`);
+                $label.attr('for', `${id}`); 
+
+                // data-temp 속성 제거
+                $checkbox.removeAttr('data-temp');
+            },
+            error: function (error) {
+                $('.list-wrap .todo-item').last().remove();
+                generalAlert('등록 중 오류가 발생했습니다.');
+            },
+        });
+    }
+</script>
