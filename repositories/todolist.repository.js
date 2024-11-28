@@ -29,6 +29,19 @@ class todolistRepository {
             throw error;
         }
     };
+
+    deletedTodoList = async (id) => {
+        try {
+            const query = `DELETE FROM todolist WHERE ID = ?`;
+            const row = db
+                .prepare(query)
+                .run(id); 
+
+            return row;
+        } catch (error) {
+            throw error;
+        }
+    };
 }
 
 module.exports = todolistRepository;

@@ -26,11 +26,18 @@
         margin-top: 4vh;
         font-size: 1.5em;
         justify-content: center;
+        padding: 14px;
     }
 
     .list-wrap {
         height: 500px;
         border: 1px solid #d2b4de;
+    }
+    
+    @media (max-height: 900px) {
+        .list-wrap {
+            height: 440px;
+        }
     }
 
     .todo-item {
@@ -178,6 +185,8 @@
         // 삭제버튼 클릭시
         $(document).on('click', '.delete-icon', function () {
             const $todoItem = $(this).parent();
+            const todoId = $todoItem.find('.todo-checkbox').prop('id')
+
             $todoItem.addClass('removing');
             $todoItem.on('animationend', function () {
                 $todoItem.remove();
@@ -186,6 +195,7 @@
                     const list = `<div class="no-list">대문자 J답게 가보자고~~</div>`;
                     $('.list-wrap').append(list);
                 }
+                deletedTodoList(todoId)
             });
         });
     });
@@ -241,5 +251,18 @@
                 generalAlert('등록 중 오류가 발생했습니다.');
             },
         });
+    }
+
+    function deletedTodoList(todoId){
+        $.ajax({
+            url:`/api/todolist/${todoId}`,
+            method:'DELETE',
+            success:function(data){
+                console.log(data)
+            },
+            error: function(error){
+                generalAlert('to Do List 삭제중 오류가 발생했습니다.')
+            }
+        })
     }
 </script>

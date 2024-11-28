@@ -145,3 +145,4 @@ dist
 
 .package-lock.json
 .package.json
+app.db

@@ -1,3 +1,4 @@
+
 const express = require("express");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
@@ -9,6 +10,7 @@ require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
 
 app.use(session({ secret: "defalt", resave: false, saveUninitialized: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET || "defaultSecretKey"));

@@ -12,19 +12,25 @@
     height: 2.1vh;
     border-radius: 15px;
     align-items: center;
-    position: relative; 
+    position: relative;
     color: var(--color-header-text);
+}
+
+@media (max-width: 600px) {
+    .header-box {
+        font-size: 1.1rem;
+    }
 }
 
 .header-box .title {
     font-size: 1vw;
 }
 
-.header-box > div:hover {
+.header-box>div:hover {
     cursor: pointer;
 }
 
-.header-box > div:last-child {
+.header-box>div:last-child {
     margin-left: 1.3vw;
 }
 
@@ -34,7 +40,7 @@ img.menu {
     object-fit: contain;
 }
 
-.header-box > div:not(:first-child) {
+.header-box>div:not(:first-child) {
     color: rgba(0, 0, 0, 0.3);
 }
 
@@ -45,6 +51,7 @@ img.menu {
 
 .logout-icon {
     margin-left: auto;
-    position: absolute; /* 절대 위치를 사용 */
-    right: 50px; 
+    position: absolute;
+    /* 절대 위치를 사용 */
+    right: 50px;
 }
