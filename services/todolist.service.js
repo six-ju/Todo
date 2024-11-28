@@ -23,6 +23,17 @@ class todolistService {
       throw error;
     }
   };
+
+  deletedTodoList = async (id) => {
+    try {
+      const data = await this.todolistRepository.deletedTodoList(id);
+
+      console.log(data)
+      return data
+    } catch (error) {
+      throw error;
+    }
+  };
 }
 
 module.exports = todolistService;
