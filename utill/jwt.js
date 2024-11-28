@@ -5,9 +5,10 @@ module.exports = {
   sign: (user) => {
     const payload = {
       user: {
-        NAME: user.NAME,
-        SOCIALTYPE: user.socialType,
-        EMAIL: user.EMAIL,
+        ID : user[0].id,
+        NAME: user[0].name,
+        SOCIALTYPE: user[0].social,
+        EMAIL: user[0].email,
       },
     };
     return jwt.sign(payload, secret, {
@@ -21,6 +22,7 @@ module.exports = {
       return {
         type: true,
         user: {
+          ID : decoded.user.ID,
           NAME: decoded.user.NAME,
           SOCIALTYPE: decoded.user.SOCIALTYPE,
           EMAIL: decoded.user.EMAIL,

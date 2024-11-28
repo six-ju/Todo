@@ -1,11 +1,9 @@
-const sqlite3 = require("sqlite3").verbose();
+const Database = require('better-sqlite3');
 
-const db = new sqlite3.Database("./app.db", (err) => {
-  if (err) {
-    console.error("Failed to connect to the database:", err.message);
-    return;
-  }
-  console.log("Connected to the SQLite database.");
+// SQLite 데이터베이스 연결
+const db = new Database('./database.sqlite', {
+    verbose: console.log, // SQL 실행 로그
 });
+
 
 module.exports = db;

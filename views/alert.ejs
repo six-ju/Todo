@@ -1,4 +1,8 @@
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script
+    src="https://code.jquery.com/jquery-3.7.1.js"
+    integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"
+></script>
 <script src="https://kit.fontawesome.com/c0c3fb1839.js" crossorigin="anonymous"></script>
 <script src="/js/common.js"></script>
 <link rel="stylesheet" href="/css/modal.css" />
@@ -6,8 +10,8 @@
 <%- include('share/modal.ejs') %>
 
 <script>
-    $(".alert-close").hide();
-    generalAlert(`<%= message %>`, function() {
+    $('.alert-close').hide();
+    generalAlert(`<%= message %>`, function () {
         location.href = `<%= href %>`;
     });
 </script>

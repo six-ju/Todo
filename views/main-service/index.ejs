@@ -81,12 +81,12 @@
         font-size: 1.3em;
     }
 
-    .todo-date{
+    .todo-date {
         margin: 0 0 0 auto;
-        color: #8f8e8e;;
+        color: #8f8e8e;
     }
 
-    .delete-icon{
+    .delete-icon {
         margin: 0 0 0 10px;
     }
 
@@ -123,26 +123,17 @@
     </div>
     <div class="todo-list">
         <div class="title">ToDo List</div>
-        <div class="list-wrap">
-            <div class="todo-item">
-                <input type="checkbox" id="list1" class="todo-checkbox" />
-                <label for="list1" class="todo-text">오늘 집가기</label>
-                <label class="delete-icon"><i class="fa-regular fa-trash-can"></i></label>
-            </div>
-            <div class="todo-item">
-                <input type="checkbox" id="list2" class="todo-checkbox" />
-                <label for="list2" class="todo-text">내일 운동하기</label>
-                <label class="delete-icon"><i class="fa-regular fa-trash-can"></i></label>
-            </div>
-        </div>
+        <!-- toDo List  -->
+        <div class="list-wrap"></div>
         <div class="text-area">
-            <input type="text" class="input-todo" placeholder="ToDo" maxlength="20"/>
+            <input type="text" class="input-todo" placeholder="ToDo" maxlength="20" />
             <label class="icon-click"><i class="fa-solid fa-arrow-up-long"></i></label>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function () {
+        const loginUserId = $('#id').text();
         $('.filter-btn').click(function () {
             const date = $(this).data('period');
             if (date === 'day') {
@@ -153,6 +144,8 @@
                 console.log(date);
             }
         });
+
+        gettoDoList(loginUserId);
 
         // toDo 리스트 저장
         $('.icon-click').click(function () {
@@ -170,12 +163,16 @@
                             <label class="delete-icon"><i class="fa-regular fa-trash-can"></i></label>
                         </div>`;
 
-            $('.input-todo').val('')
+            $('.input-todo').val('');
             $('.list-wrap').append(list);
 
-            $.ajax({
-                url:'/api/todolist/save'
-            })
+            const listData = {
+                userId: loginUserId,
+                content: text,
+                startDate: date,
+            };
+
+            savetoDolist(listData);
         });
 
         // 삭제버튼 클릭시
@@ -192,4 +189,58 @@
             });
         });
     });
+
+    function gettoDoList(loginUserId) {
+        $.ajax({
+            url: `/api/todolist/${loginUserId}`,
+            method: 'GET',
+            success: function (data) {
+                console.log(data);
+                if (data) {
+                    let list = ``;
+                    data.forEach((todo) => {
+                        list += `<div class="todo-item">
+                            <input type="checkbox" id=${todo.id} class="todo-checkbox" />
+                            <label for=${todo.id} class="todo-text">${todo.content}</label>
+                            <label class="todo-date">${todo.startDate}</label>
+                            <label class="delete-icon"><i class="fa-regular fa-trash-can"></i></label>
+                        </div>`;
+                    });
+
+                    $('.list-wrap').append(list);
+                } else {
+                    const list = `<div class="no-list">대문자 J답게 가보자고~~</div>`;
+                    $('.list-wrap').append(list);
+                }
+            },
+            error: function (error) {
+                generalAlert('리스트 가져오는중 오류가 발생했습니다.');
+            },
+        });
+    }
+
+    function savetoDolist(listData) {
+        $.ajax({
+            url: '/api/todolist',
+            method: 'POST',
+            data: { listData },
+            success: function (data) {
+                const id = data.lastInsertRowid;
+                const $lastTodoItem = $('.list-wrap .todo-item').last(); 
+                const $checkbox = $lastTodoItem.find('.todo-checkbox');
+                const $label = $lastTodoItem.find('.todo-text'); 
+
+                // ID 변경
+                $checkbox.prop('id', `${id}`);
+                $label.attr('for', `${id}`); 
+
+                // data-temp 속성 제거
+                $checkbox.removeAttr('data-temp');
+            },
+            error: function (error) {
+                $('.list-wrap .todo-item').last().remove();
+                generalAlert('등록 중 오류가 발생했습니다.');
+            },
+        });
+    }
 </script>
