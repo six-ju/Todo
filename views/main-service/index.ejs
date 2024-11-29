@@ -124,7 +124,7 @@
 </style>
 <div class="content">
     <div class="date-filter">
-        <button class="filter-btn" data-period="today">TODAY</button>
+        <button class="filter-btn" data-period="daily">Daily</button>
         <button class="filter-btn" data-period="week">WEEK</button>
         <button class="filter-btn" data-period="month">MONTH</button>
     </div>
@@ -142,16 +142,6 @@
     $(document).ready(function () {
         let callApi = false
         const loginUserId = $('#id').text();
-        $('.filter-btn').click(function () {
-            const date = $(this).data('period');
-            if (date === 'day') {
-                console.log(date);
-            } else if (date === 'week') {
-                console.log(date);
-            } else if (date === 'month') {
-                console.log(date);
-            }
-        });
 
         gettoDoList(loginUserId);
 
@@ -161,26 +151,30 @@
                 $('.no-list').remove();
             }
 
-            const temp = `temp-${moment(Date()).format('YYYY-MM-DDhh:mm:ss')}`;
-            const date = moment(Date()).format('YYYY-MM-DD');
-            const text = $('.input-todo').val();
-            const list = `<div class="todo-item">
-                            <input type="checkbox" id=${temp} data-temp=${temp} class="todo-checkbox" />
-                            <label for=${temp} class="todo-text">${text}</label>
-                            <label class="todo-date">${date}</label>
-                            <label class="delete-icon"><i class="fa-regular fa-trash-can"></i></label>
-                        </div>`;
+            if($('.list-wrap .todo-item').length  > 9){
+                generalAlert('하루에 최대 10개까지 등록가능합니다.')
+            }else{
+                const temp = `temp-${moment(Date()).format('YYYY-MM-DDhh:mm:ss')}`;
+                const date = moment(Date()).format('YYYY-MM-DD');
+                const text = $('.input-todo').val();
+                const list = `<div class="todo-item">
+                                <input type="checkbox" id=${temp} data-temp=${temp} class="todo-checkbox" />
+                                <label for=${temp} class="todo-text">${text}</label>
+                                <label class="todo-date">${date}</label>
+                                <label class="delete-icon"><i class="fa-regular fa-trash-can"></i></label>
+                            </div>`;
 
-            $('.input-todo').val('');
-            $('.list-wrap').append(list);
+                $('.input-todo').val('');
+                $('.list-wrap').append(list);
 
-            const listData = {
-                userId: loginUserId,
-                content: text,
-                startDate: date,
-            };
+                const listData = {
+                    userId: loginUserId,
+                    content: text,
+                    startDate: date,
+                };
 
-            savetoDolist(listData);
+                savetoDolist(listData);
+            }
         });
 
         // 삭제버튼 클릭시
@@ -247,7 +241,6 @@
             method: 'POST',
             data: { listData },
             success: function (data) {
-                console.log(data)
                 const id = data;
                 const $lastTodoItem = $('.list-wrap .todo-item').last(); 
                 const $checkbox = $lastTodoItem.find('.todo-checkbox');
@@ -280,6 +273,7 @@
         })
     }
 
+    // 시간 유무로 완료 미완료로 변경됨
     function completetoDo(id){
         callApi = true
         $.ajax({
