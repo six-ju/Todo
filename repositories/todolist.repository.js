@@ -1,47 +1,39 @@
 const db = require('../database/db');
+const { promisePool } = require('../config/database');
 
-// db.get : 한행 데이터를 검색 SELECT
-// db.run : 데이터를 추가하거나 수정 할경우 INSERT, UPDATE, DELETE
 class todolistRepository {
-    // 기존 유저 체크
-    getUserInfo = async (id) => {
+    async getUserInfo(id) {
         try {
-            const query = `SELECT * FROM todolist WHERE userid = ?`;
-            const row = db.prepare(query).all(id); // 즉시 실행하여 데이터 반환
+            const [data] = await promisePool.query('select * from TODOLIST where userId = ? ', id);
 
-            return row;
-        } catch (error) {
-            throw error;
+            return data;
+        } catch (err) {
+            console.error('Query error:', err);
         }
-    };
+    }
 
-    savetoDolist = async (listData, userName) => {
+    async savetoDolist(listData, userName) {
         try {
-            const query = `INSERT INTO todolist ('userId','content','startDate','createdAt','updatedAt') 
-                            VALUES (?,?,?,?,?)                
-                            `;
-            const row = db
-                .prepare(query)
-                .run(listData.userId, listData.content, listData.startDate, userName, userName); 
+            const [data] = await promisePool.query(
+                'INSERT INTO TODOLIST (userId,content,startDate,createdBy,updatedBy) VALUES (?,?,?,?,?) ',
+                [listData.userId, listData.content, listData.startDate, userName, userName],
+            );
 
-            return row;
-        } catch (error) {
-            throw error;
+            return data;
+        } catch (err) {
+            console.error('Query error:', err);
         }
-    };
+    }
 
-    deletedTodoList = async (id) => {
+    async deletedTodoList(id) {
         try {
-            const query = `DELETE FROM todolist WHERE ID = ?`;
-            const row = db
-                .prepare(query)
-                .run(id); 
+            const [data] = await promisePool.query('DELETE FROM TODOLIST WHERE ID = ? ', id);
 
-            return row;
-        } catch (error) {
-            throw error;
+            return data;
+        } catch (err) {
+            console.error('Query error:', err);
         }
-    };
+    }
 }
 
 module.exports = todolistRepository;

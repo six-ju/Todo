@@ -21,6 +21,7 @@
         transition: transform 0.3s ease; /* 마우스 오버 효과 */
     }
     
+    
     img:hover {
         transform: scale(1.1); /* 마우스 오버 시 약간 확대 */
     }
@@ -38,7 +39,7 @@
                         src="/image/google-login1.png"
                         alt="google Login"
                         id="google"
-                        onclick="location.href='/auth/google'"
+                        onclick="login('google')"
                     />
                 </div>
                 <div>
@@ -46,7 +47,7 @@
                         src="/image/kakao-login1.png"
                         alt="kakao Login"
                         id="kakao"
-                        onclick="location.href='/auth/kakao'"
+                        onclick="login('kakao')"
                     />
                 </div>
                 <div>
@@ -54,7 +55,7 @@
                         src="/image/naver-login1.png"
                         alt="naver Login"
                         id="naver"
-                        onclick="location.href='/auth/naver'"
+                        onclick="login('naver')"
                     />
                 </div>
             </div>
@@ -67,11 +68,7 @@
     crossorigin="anonymous"
 ></script>
 <script>
-    function googleLogin() {}
-    function kakaoLogin() {
-        const id = e.id;
-    }
-    function naverLogin() {
-        const id = e.id;
+    function login(social) {
+        location.href = `/auth/${social}`
     }
 </script>

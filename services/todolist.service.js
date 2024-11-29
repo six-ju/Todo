@@ -6,7 +6,7 @@ class todolistService {
   getUserInfo = async (id) => {
     try {
       const data = await this.todolistRepository.getUserInfo(id);
-
+      
       return data
     } catch (error) {
       throw error;
@@ -17,8 +17,7 @@ class todolistService {
     try {
       const data = await this.todolistRepository.savetoDolist(listData, userName);
 
-      console.log(data)
-      return data
+      return data.insertId
     } catch (error) {
       throw error;
     }

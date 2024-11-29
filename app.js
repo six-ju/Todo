@@ -5,12 +5,14 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const path = require("path");
 const db = require("./database/db");
+const database = require("./config/database");
+// 디비 연결 테스트
+//const testCode = require("./config/databaseTestcode")
 
 require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
 
 app.use(session({ secret: "defalt", resave: false, saveUninitialized: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET || "defaultSecretKey"));

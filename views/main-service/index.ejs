@@ -211,7 +211,7 @@
                         list += `<div class="todo-item">
                             <input type="checkbox" id=${todo.id} class="todo-checkbox" />
                             <label for=${todo.id} class="todo-text">${todo.content}</label>
-                            <label class="todo-date">${todo.startDate}</label>
+                            <label class="todo-date">${moment(todo.startDate).format('YYYY-MM-DD')}</label>
                             <label class="delete-icon"><i class="fa-regular fa-trash-can"></i></label>
                         </div>`;
                     });
