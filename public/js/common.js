@@ -9,6 +9,13 @@ $(function () {
             location.href = '/auth/logout';
         });
     });
+
+    $('input').keydown(function(e){
+        // 엔터 키 눌렀을때
+        if(e.keyCode === 13){
+            $('.enter').trigger('click')
+        }
+    })
 });
 
 // 모달 일반 알림 (취소 버튼 미포함)
@@ -37,4 +44,18 @@ function generalAlert(text, confirmCallback, isWarning = false) {
 function warningAlert(text, confirmCallback) {
     $('.alert-btn.cancel').show();
     generalAlert(text, confirmCallback, true);
+}
+
+// 연속적인 api 호출 방지
+function callApi() {
+    if (isCooldown) {
+        generalAlert('잠시후 다시 시도해주세요.')
+    }
+
+    console.log('API 호출');
+    isCooldown = true;
+
+    setTimeout(() => {
+        isCooldown = false;
+    }, 1000); // 1초 대기
 }

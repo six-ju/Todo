@@ -4,10 +4,7 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const path = require("path");
-const db = require("./database/db");
 const database = require("./config/database");
-// 디비 연결 테스트
-//const testCode = require("./config/databaseTestcode")
 
 require("dotenv").config();
 

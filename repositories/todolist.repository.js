@@ -34,6 +34,16 @@ class todolistRepository {
             console.error('Query error:', err);
         }
     }
+
+    async completetoDo(id) {
+        try {
+            const [data] = await promisePool.query('UPDATE TODOLIST SET COMPLETEDATE = CURDATE() WHERE ID = ? ', id);
+
+            return data;
+        } catch (err) {
+            console.error('Query error:', err);
+        }
+    }
 }
 
 module.exports = todolistRepository;

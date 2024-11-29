@@ -27,7 +27,16 @@ class todolistService {
     try {
       const data = await this.todolistRepository.deletedTodoList(id);
 
-      console.log(data)
+      return data
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  completetoDo = async (id) => {
+    try {
+      const data = await this.todolistRepository.completetoDo(id);
+
       return data
     } catch (error) {
       throw error;

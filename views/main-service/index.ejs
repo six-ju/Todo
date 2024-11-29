@@ -134,12 +134,13 @@
         <div class="list-wrap"></div>
         <div class="text-area">
             <input type="text" class="input-todo" placeholder="ToDo" maxlength="20" />
-            <label class="icon-click"><i class="fa-solid fa-arrow-up-long"></i></label>
+            <label class="icon-click enter"><i class="fa-solid fa-arrow-up-long"></i></label>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function () {
+        let callApi = false
         const loginUserId = $('#id').text();
         $('.filter-btn').click(function () {
             const date = $(this).data('period');
@@ -198,6 +199,17 @@
                 deletedTodoList(todoId)
             });
         });
+
+        // 일정 완료 체크시 
+        $(document).on('click', 'input[type=checkbox]', function(){
+            const id = $(this).attr('id');
+            if(!callApi){
+                completetoDo(id)
+            }else{
+                generalAlert('잠시후에 다시 시도해주세요.')
+            }
+        })
+
     });
 
     function gettoDoList(loginUserId) {
@@ -208,8 +220,9 @@
                 if (data.length > 0) {
                     let list = ``;
                     data.forEach((todo) => {
+                        let isChecked = todo.completeDate ? 'checked' : ''
                         list += `<div class="todo-item">
-                            <input type="checkbox" id=${todo.id} class="todo-checkbox" />
+                            <input type="checkbox" id=${todo.id} class="todo-checkbox" ${isChecked}/>
                             <label for=${todo.id} class="todo-text">${todo.content}</label>
                             <label class="todo-date">${moment(todo.startDate).format('YYYY-MM-DD')}</label>
                             <label class="delete-icon"><i class="fa-regular fa-trash-can"></i></label>
@@ -234,7 +247,8 @@
             method: 'POST',
             data: { listData },
             success: function (data) {
-                const id = data.lastInsertRowid;
+                console.log(data)
+                const id = data;
                 const $lastTodoItem = $('.list-wrap .todo-item').last(); 
                 const $checkbox = $lastTodoItem.find('.todo-checkbox');
                 const $label = $lastTodoItem.find('.todo-text'); 
@@ -262,6 +276,20 @@
             },
             error: function(error){
                 generalAlert('to Do List 삭제중 오류가 발생했습니다.')
+            }
+        })
+    }
+
+    function completetoDo(id){
+        callApi = true
+        $.ajax({
+            url : `/api/todolist/${id}`,
+            method:'PATCH',
+            success:function(){
+                callApi = false
+            },
+            error: function(error){
+                generalAlert('to Do List 수정 중 오류가 발생했습니다.')
             }
         })
     }

@@ -39,6 +39,18 @@ class todolistController {
             return res.status(400).json({ message: error });
         }
     };
+
+    completetoDo = async (req, res, next) => {
+        try {
+            const { id } = req.params;
+
+            const data = await this.todolistService.completetoDo(id);
+
+            return res.status(200).json(data);
+        } catch (error) {
+            return res.status(400).json({ message: error });
+        }
+    };
 }
 
 module.exports = todolistController;

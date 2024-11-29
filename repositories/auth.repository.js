@@ -18,12 +18,12 @@ class AuthRepository {
 
     async signIn(userInfo) {
         try {
-            console.log(123);
             const [data] = await promisePool.query(
                 'insert into USER (name, social, email, instaUrl, createdBy) VALUES (?,?,?,NULL,"SYSTEM" )',
                 [userInfo.NAME, userInfo.SOCIALTYPE, userInfo.EMAIL],
             );
-            console.log(data);
+
+            return data
         } catch (error) {
             throw error;
         }
