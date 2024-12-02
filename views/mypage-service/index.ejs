@@ -1,23 +1,129 @@
-<div class="content">
-    <div class="date-filter">
-        <button class="filter-btn" data-period="today">TODAY</button>
-        <button class="filter-btn" data-period="week">WEEK</button>
-        <button class="filter-btn" data-period="month">MONTH</button>
-    </div>
-    <div class="todo-list">
-        <div class="title">
-            <label class="icon-label prev"> <i class="fa-solid fa-chevron-left prev-date"></i> </label>
-            <p class="title-date">ToDo List</p>
-            <label class="icon-label next"> <i class="fa-solid fa-chevron-right next-date"></i> </label>
-        </div>
+<style>
+    .mypage-wrap {
+        display: flex;
+        border: 1px solid #d2b4de;
+        border-radius: 15px;
+        margin-top: 4vh;
+        font-size: 1.2em;
+        padding: 3.4px;
+        align-items: center;
+        flex-direction: column;
+    }
 
-        <!-- toDo List  -->
-        <div class="list-wrap"></div>
-        <div class="text-area">
-            <input type="text" class="input-todo" placeholder="ToDo" maxlength="20" />
-            <label class="icon-click enter"><i class="fa-solid fa-arrow-up-long"></i></label>
+    input {
+        border: 1px solid #d9d9d9;
+        border-radius: 15px;
+        font-size: 0.8em;
+        padding: 13.4px;
+    }
+
+    .section {
+        margin-top: 4vh;
+        text-align: left;
+    }
+
+    .mypage-wrap .section:last-child {
+        margin: 4vh;
+        border: 1px solid #d9d9d9;
+        border-radius: 15px;
+        padding: 10px 50px;
+        color: white;
+        background-color: var(--color-header-background);
+        transition: all 0.3s ease;
+    }
+
+    .mypage-wrap .section:last-child:hover {
+        border: 1px solid var(--color-header-background); /* 테두리 색상 변경 */
+        background-color: #c585df; /* 배경색 변경 */
+        transform: scale(1.05); /* 크기 약간 확대 */
+        cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
+    }
+
+    .section label {
+        width: 97px;
+        display: inline-block;
+    }
+</style>
+<div class="content">
+    <div class="mypage-wrap">
+        <div class="section">
+            <label for="nickname">닉네임</label>
+            <input type="text" id="name" placeholder="NICKNAME" />
+        </div>
+        <div class="section">
+            <label for="email">이메일</label>
+            <input type="text" id="email" disabled />
+        </div>
+        <div class="section">
+            <label for="social">소셜</label>
+            <input type="text" id="social" disabled />
+        </div>
+        <div class="section">
+            <label for="insta">INSTAGRAM</label>
+            <input type="text" id="insta" placeholder="INSTAGRAM" />
+        </div>
+        <div class="section">
+            <label for="createdDate">가입일</label>
+            <input type="text" id="createdDate" disabled />
+        </div>
+        <div class="section">
+            <div class="save-btn">저장</div>
         </div>
     </div>
 </div>
 <script>
+    $(document).ready(function () {
+        const id = $('#id').text();
+        getuserInfoById(id);
+
+        $('.save-btn').click(function () {
+            const name = $('#name').val();
+            const insta = $('#insta').val();
+
+            if (!name) {
+                generalAlert('닉네임을 입력해주세요.');
+                return false;
+            }
+
+            const info = {
+                name,
+                insta,
+            };
+
+            saveInfoById(id, info);
+        });
+    });
+
+    function getuserInfoById(id) {
+        $.ajax({
+            url: `/api/mypage/${id}`,
+            method: 'GET',
+            success: function (data) {
+                data = data[0];
+                const createdAt = moment(data.createdAt).format('YYYY-MM-DD');
+                $('#name').val(data.name);
+                $('#email').val(data.email);
+                $('#social').val(data.social);
+                $('#insta').val(data.instaUrl ?? '');
+                $('#createdDate').val(createdAt);
+            },
+            error: function (error) {
+                generalAlert(error.responseJSON);
+            },
+        });
+    }
+
+    function saveInfoById(id, info) {
+        $.ajax({
+            url: `/api/mypage/${id}`,
+            method: 'PATCH',
+            data: { info },
+            success: function () {
+                generalAlert('수정되었습니다.');
+            },
+            error: function (error) {
+                generalAlert(error.responseJSON);
+            },
+        });
+    }
 </script>

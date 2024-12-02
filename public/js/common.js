@@ -20,12 +20,14 @@ $(function () {
     // 헤더 이동
     $('.header').click(function(){
         const page = $(this).data('page')
-        console.log(page)
         $(this).removeClass('active')
         location.href = `/${page}`
     })
 
     const pathName = location.pathname.split('/').pop()
+    if(pathName){
+        $('.header').removeClass('active')
+    }
     $(`.${pathName}`).addClass('active')
 });
 

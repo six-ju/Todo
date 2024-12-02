@@ -62,8 +62,12 @@
         <!-- USER -->
         <% if (components === 'user') { %> <%- include('user.ejs') %> <% } %> 
 
-        <!-- USER -->
+        <!-- todolist -->
         <% if (components === 'main-service/index') { %> <%- include('main-service/index.ejs') %> <% } %> 
+        
+        <!-- mypage -->
+        <% if (components === 'mypage-service/index') { %> <%- include('mypage-service/index.ejs') %> <% } %> 
+        
         <!-- flight-management -->
         <!-- <% if (components.startsWith('flight-management')) { %>
             <% if (!components.includes('popup')) { %>

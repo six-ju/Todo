@@ -12,15 +12,27 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/', auth, (req, res, next) => {
-    res.render('index.ejs', { components: 'main-service/index' });
+    try {
+        res.render('index.ejs', { components: 'main-service/index' });
+    } catch (error) {
+        next(error);
+    }
 });
 
 router.get('/todo', auth, (req, res, next) => {
-    res.render('index.ejs', { components: 'main-service/index' });
+    try {
+        res.render('index.ejs', { components: 'main-service/index' });
+    } catch (error) {   
+        next(error);
+    }
 });
 
 router.get('/mypage', auth, (req, res, next) => {
-    res.render('index.ejs', { components: 'mypage-service/index' });
+    try {
+        res.render('index.ejs', { components: 'mypage-service/index' });
+    } catch (error) {
+        next(error);
+    }
 });
 
 module.exports = router;

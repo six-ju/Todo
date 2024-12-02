@@ -1,17 +1,22 @@
-const { verify } = require("../utill/jwt");
+const { verify } = require('../utill/jwt');
 
 auth = async (req, res, next) => {
-  try {
-    const { accessToken } = req.signedCookies;
-    const accessTokenVerify = verify(accessToken);
+    try {
+        const { accessToken } = req.signedCookies;
+        const accessTokenVerify = verify(accessToken);
 
-    const user = accessTokenVerify.user;
-    res.locals.user = user;
+        if (!accessToken || accessTokenVerify.type === false) {
+            res.clearCookie('accessToken');
+            throw new SessionExpiredError();
+        }
 
-    next();
-  } catch (error) {
-    next(error);
-  }
+        const user = accessTokenVerify.user;
+        res.locals.user = user;
+
+        next();
+    } catch (error) {
+        next(error);
+    }
 };
 
 module.exports = { auth };
