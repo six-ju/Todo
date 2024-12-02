@@ -1,10 +1,9 @@
-const db = require('../database/db');
 const { promisePool } = require('../config/database');
 
 class todolistRepository {
-    async getUserInfo(id) {
+    async gettoDoList(id, choseDate) {
         try {
-            const [data] = await promisePool.query('select * from TODOLIST where userId = ? ', id);
+            const [data] = await promisePool.query('select * from TODOLIST where userId = ? AND startDate = ?', [id, choseDate]);
 
             return data;
         } catch (err) {

@@ -5,7 +5,7 @@ const toDolistController = require("../controllers/todolist.controller");
 const todolistController = new toDolistController();
 
 router.post("/", todolistController.savetoDolist);
-router.get("/:id", todolistController.getUserInfo);
+router.get("/:id", todolistController.gettoDoList);
 router.patch("/:id", todolistController.completetoDo);
 router.delete("/:id", todolistController.deletedTodoList);
 

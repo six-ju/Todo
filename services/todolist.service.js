@@ -3,9 +3,9 @@ const todolistRepository = require("../repositories/todolist.repository");
 class todolistService {
   todolistRepository = new todolistRepository();
 
-  getUserInfo = async (id) => {
+  gettoDoList = async (id, choseDate) => {
     try {
-      const data = await this.todolistRepository.getUserInfo(id);
+      const data = await this.todolistRepository.gettoDoList(id, choseDate);
       
       return data
     } catch (error) {

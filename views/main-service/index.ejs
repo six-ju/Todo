@@ -25,15 +25,16 @@
         border-radius: 15px 15px 0 0;
         margin-top: 4vh;
         font-size: 1.5em;
-        justify-content: center;
+        justify-content: space-around;
         padding: 14px;
+        align-items: center;
     }
 
     .list-wrap {
         height: 500px;
         border: 1px solid #d2b4de;
     }
-    
+
     @media (max-height: 900px) {
         .list-wrap {
             height: 440px;
@@ -129,7 +130,10 @@
         <button class="filter-btn" data-period="month">MONTH</button>
     </div>
     <div class="todo-list">
-        <div class="title">ToDo List</div>
+        <div class="title">
+            <i class="fa-solid fa-chevron-left prev-date"></i> ToDo List
+            <i class="fa-solid fa-chevron-right next-date"></i>
+        </div>
         <!-- toDo List  -->
         <div class="list-wrap"></div>
         <div class="text-area">
@@ -140,12 +144,17 @@
 </div>
 <script>
     $(document).ready(function () {
-        let callApi = false
+        let callApi = false;
+        let today = moment();
+        let choseDate = today.format('YYYY-MM-DD');
+
         const loginUserId = $('#id').text();
         $('.filter-btn').click(function () {
             const date = $(this).data('period');
-            if (date === 'day') {
-                console.log(date);
+            if (date === 'today') {
+                today = moment();
+                choseDate = today.format('YYYY-MM-DD');
+                gettoDoList(loginUserId, choseDate);
             } else if (date === 'week') {
                 console.log(date);
             } else if (date === 'month') {
@@ -153,7 +162,21 @@
             }
         });
 
-        gettoDoList(loginUserId);
+        gettoDoList(loginUserId, choseDate);
+
+        // 전날로 이동
+        $('.prev-date').click(function () {
+            today = today.subtract(1, 'days');
+            choseDate = today.format('YYYY-MM-DD');
+            gettoDoList(loginUserId, choseDate);
+        });
+
+        // 다음날로이동
+        $('.next-date').click(function () {
+            today = today.add(1, 'days');
+            choseDate = today.format('YYYY-MM-DD');
+            gettoDoList(loginUserId, choseDate);
+        });
 
         // toDo 리스트 저장
         $('.icon-click').click(function () {
@@ -186,7 +209,7 @@
         // 삭제버튼 클릭시
         $(document).on('click', '.delete-icon', function () {
             const $todoItem = $(this).parent();
-            const todoId = $todoItem.find('.todo-checkbox').prop('id')
+            const todoId = $todoItem.find('.todo-checkbox').prop('id');
 
             $todoItem.addClass('removing');
             $todoItem.on('animationend', function () {
@@ -196,35 +219,40 @@
                     const list = `<div class="no-list">대문자 J답게 가보자고~~</div>`;
                     $('.list-wrap').append(list);
                 }
-                deletedTodoList(todoId)
+                deletedTodoList(todoId);
             });
         });
 
-        // 일정 완료 체크시 
-        $(document).on('click', 'input[type=checkbox]', function(){
+        // 일정 완료 체크시
+        $(document).on('click', 'input[type=checkbox]', function () {
             const id = $(this).attr('id');
-            if(!callApi){
-                completetoDo(id)
-            }else{
-                generalAlert('잠시후에 다시 시도해주세요.')
+            if (!callApi) {
+                completetoDo(id);
+            } else {
+                generalAlert('잠시후에 다시 시도해주세요.');
             }
-        })
-
+        });
     });
 
-    function gettoDoList(loginUserId) {
+    function gettoDoList(loginUserId, choseDate) {
         $.ajax({
             url: `/api/todolist/${loginUserId}`,
             method: 'GET',
+            data: { choseDate },
             success: function (data) {
+                $('.list-wrap div').remove();
                 if (data.length > 0) {
                     let list = ``;
                     data.forEach((todo) => {
-                        let isChecked = todo.completeDate ? 'checked' : ''
+                        let isChecked = todo.completeDate ? 'checked' : '';
                         list += `<div class="todo-item">
-                            <input type="checkbox" id=${todo.id} class="todo-checkbox" ${isChecked}/>
+                            <input type="checkbox" id=${
+                                todo.id
+                            } class="todo-checkbox" ${isChecked}/>
                             <label for=${todo.id} class="todo-text">${todo.content}</label>
-                            <label class="todo-date">${moment(todo.startDate).format('YYYY-MM-DD')}</label>
+                            <label class="todo-date">${moment(todo.startDate).format(
+                                'YYYY-MM-DD',
+                            )}</label>
                             <label class="delete-icon"><i class="fa-regular fa-trash-can"></i></label>
                         </div>`;
                     });
@@ -247,15 +275,15 @@
             method: 'POST',
             data: { listData },
             success: function (data) {
-                console.log(data)
+                console.log(data);
                 const id = data;
-                const $lastTodoItem = $('.list-wrap .todo-item').last(); 
+                const $lastTodoItem = $('.list-wrap .todo-item').last();
                 const $checkbox = $lastTodoItem.find('.todo-checkbox');
-                const $label = $lastTodoItem.find('.todo-text'); 
+                const $label = $lastTodoItem.find('.todo-text');
 
                 // ID 변경
                 $checkbox.prop('id', `${id}`);
-                $label.attr('for', `${id}`); 
+                $label.attr('for', `${id}`);
 
                 // data-temp 속성 제거
                 $checkbox.removeAttr('data-temp');
@@ -267,30 +295,30 @@
         });
     }
 
-    function deletedTodoList(todoId){
+    function deletedTodoList(todoId) {
         $.ajax({
-            url:`/api/todolist/${todoId}`,
-            method:'DELETE',
-            success:function(data){
-                console.log(data)
+            url: `/api/todolist/${todoId}`,
+            method: 'DELETE',
+            success: function (data) {
+                console.log(data);
             },
-            error: function(error){
-                generalAlert('to Do List 삭제중 오류가 발생했습니다.')
-            }
-        })
+            error: function (error) {
+                generalAlert('to Do List 삭제중 오류가 발생했습니다.');
+            },
+        });
     }
 
-    function completetoDo(id){
-        callApi = true
+    function completetoDo(id) {
+        callApi = true;
         $.ajax({
-            url : `/api/todolist/${id}`,
-            method:'PATCH',
-            success:function(){
-                callApi = false
+            url: `/api/todolist/${id}`,
+            method: 'PATCH',
+            success: function () {
+                callApi = false;
             },
-            error: function(error){
-                generalAlert('to Do List 수정 중 오류가 발생했습니다.')
-            }
-        })
+            error: function (error) {
+                generalAlert('to Do List 수정 중 오류가 발생했습니다.');
+            },
+        });
     }
 </script>
