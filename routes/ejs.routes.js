@@ -11,12 +11,16 @@ router.get('/login', (req, res) => {
     res.render('index.ejs', { components: 'login' });
 });
 
-router.get('/', auth,(req, res, next) => {
-    const accessToken = req.signedCookies.accessToken;
-    if (!accessToken) {
-        return res.redirect('/login');
-    }
+router.get('/', auth, (req, res, next) => {
     res.render('index.ejs', { components: 'main-service/index' });
+});
+
+router.get('/todo', auth, (req, res, next) => {
+    res.render('index.ejs', { components: 'main-service/index' });
+});
+
+router.get('/mypage', auth, (req, res, next) => {
+    res.render('index.ejs', { components: 'mypage-service/index' });
 });
 
 module.exports = router;

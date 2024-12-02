@@ -3,7 +3,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TDOL(ToDo LIST)</title>
-    <link rel="icon" href="/image/logo.ico" type="image/x-icon">
+    <link rel="preload" href="/image/logo.png" as="image" type="image/x-icon">
+    <link rel="icon" href="/image/logo.png" type="image/x-icon" sizes="32x32">
 
     <!-- css -->
     <link rel="stylesheet" href="/css/common.css" />
@@ -36,10 +37,7 @@
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
     <link rel="stylesheet" href="/css/flatpicker-override.css" /> -->
 
-    <!-- Pagination -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.css" integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.js" integrity="sha512-GzbaI5EsNzdEUq6/2XLYpr1y9CUZRIVsUeWTAFgULtQa5jZ3Nug8i0nZKM6jp9NffBCZhymPPQFcF0DK+JkRpw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-</head>
+    </head>
 <body> 
     <!-- header -->
     <% if (components !== 'login' && !components.includes('popup')) { %>

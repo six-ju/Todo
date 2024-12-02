@@ -13,6 +13,10 @@
     border-radius: 15px;
     align-items: center;
     position: relative;
+    /* color: var(--color-header-text); */
+}
+
+.header-box .active {
     color: var(--color-header-text);
 }
 
@@ -26,11 +30,11 @@
     font-size: 1vw;
 }
 
-.header-box>div:hover {
+.header-box > div:hover {
     cursor: pointer;
 }
 
-.header-box>div:last-child {
+.header-box > div:last-child {
     margin-left: 1.3vw;
 }
 
@@ -40,13 +44,8 @@ img.menu {
     object-fit: contain;
 }
 
-.header-box>div:not(:first-child) {
+.header-box {
     color: rgba(0, 0, 0, 0.3);
-}
-
-.header-box .active {
-    color: #0b4da2 !important;
-    margin-bottom: 5px;
 }
 
 .logout-icon {

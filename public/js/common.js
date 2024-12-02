@@ -16,6 +16,17 @@ $(function () {
             $('.enter').trigger('click')
         }
     })
+
+    // 헤더 이동
+    $('.header').click(function(){
+        const page = $(this).data('page')
+        console.log(page)
+        $(this).removeClass('active')
+        location.href = `/${page}`
+    })
+
+    const pathName = location.pathname.split('/').pop()
+    $(`.${pathName}`).addClass('active')
 });
 
 // 모달 일반 알림 (취소 버튼 미포함)
