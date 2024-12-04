@@ -247,6 +247,7 @@
     });
 
     function gettoDoList(loginUserId, choseDate) {
+        console.log(loginUserId)
         $.ajax({
             url: `/api/todolist/${loginUserId}`,
             method: 'GET',

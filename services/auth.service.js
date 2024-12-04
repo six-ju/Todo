@@ -3,12 +3,15 @@ const AuthRepository = require('../repositories/auth.repository');
 class AuthService {
     AuthRepository = new AuthRepository();
     user = async (userInfo) => {
-        try {            
+        try {
             const checkUser = await this.AuthRepository.checkUser(userInfo);
 
-            if (checkUser.length > 0 && checkUser[0].social !== userInfo.SOCIALTYPE ) {
-                return checkUser[0].social
-            } else if (checkUser.length > 0) {
+            if (checkUser != null && checkUser.social !== userInfo.SOCIALTYPE) {
+                const error = new Error(`중복된 이메일이 있습니다. 관리자에게 문의해주세요.`);
+                error.status = 401;
+                error.name = 'EachEmail';
+                throw error;
+            } else if (checkUser != null) {
                 return checkUser;
             } else {
                 // 2. 기존에 가입하지 않은 유저면 DB 저장 및 로그인
@@ -20,7 +23,7 @@ class AuthService {
 
                 userInfo = {
                     ...userInfo,
-                    ID: signIn.ResultSetHeader.insertId,
+                    ID: signIn.insertId,
                 };
 
                 return userInfo;
