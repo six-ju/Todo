@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { auth } = require('../middleware/auth');
+const { checkAccessToken } = require('../middleware/checkAccessToken')
 
 /* View Mapping */
 router.get('/login', (req, res) => {
