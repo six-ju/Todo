@@ -36,7 +36,7 @@ class todolistRepository {
 
     async completetoDo(id) {
         try {
-            const [data] = await promisePool.query('UPDATE TODOLIST SET COMPLETEDATE = CURDATE() WHERE ID = ? ', id);
+            const [data] = await promisePool.query('UPDATE TODOLIST SET completeDate = CASE WHEN completeDate IS NULL THEN CURDATE() ELSE NULL END WHERE ID = ? ', id);
 
             return data;
         } catch (err) {
