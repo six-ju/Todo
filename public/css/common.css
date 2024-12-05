@@ -158,3 +158,15 @@ body {
 .flatpickr-weekday {
     background-color: var(--color-header-background) !important;
 }
+
+.flatpickr-calendar {
+    top: 28% !important;
+    left: 42% !important;
+} 
+
+@media (max-width: 600px) {
+    .flatpickr-calendar {
+        top: 27% !important;
+        left: 20% !important;
+    }
+}
