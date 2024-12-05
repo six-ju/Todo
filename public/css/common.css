@@ -37,13 +37,18 @@ body {
     font-style: normal;
     font-size: clamp(13px, 0.7vw, 16px);
     overflow: hidden;
+    -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 .content {
     background-color: #edeef3;
     border-radius: 15px;
     padding: 1.85em;
-    overflow: hidden;
+    /* overflow: hidden; */
     position: relative;
     margin-top: 15px;
     max-height: 3000px;
@@ -55,7 +60,7 @@ body {
 }
 
 @media (max-width: 600px) {
-    .content{
+    .content {
         margin: 0px auto;
     }
 }
@@ -142,4 +147,14 @@ body {
     background-color: var(--button-disabled);
     color: var(--button-disabled-text);
     cursor: not-allowed;
+}
+
+/* 달력 색상 변경 */
+
+.flatpickr-month,
+.flatpickr-monthDropdown-months,
+.flatpickr-monthDropdown-month,
+.flatpickr-weekdays,
+.flatpickr-weekday {
+    background-color: var(--color-header-background) !important;
 }

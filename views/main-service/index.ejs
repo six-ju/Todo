@@ -123,8 +123,19 @@
         color: #636161;
     }
 
-    .icon-label{
+    .icon-label {
         width: 20%;
+    }
+
+    .flatpickr-calendar {
+        top: 28% !important;
+        left: 42% !important;
+    }
+
+    .title-date {
+        border: 1px solid var(--color-header-background);
+        border-radius: 15px;
+        padding: 1% 9%;
     }
 </style>
 <div class="content">
@@ -135,9 +146,14 @@
     </div>
     <div class="todo-list">
         <div class="title">
-            <label class="icon-label prev"> <i class="fa-solid fa-chevron-left prev-date"></i> </label>
+            <label class="icon-label prev">
+                <i class="fa-solid fa-chevron-left prev-date"></i>
+            </label>
             <p class="title-date">ToDo List</p>
-            <label class="icon-label next"> <i class="fa-solid fa-chevron-right next-date"></i> </label>
+            <input type="text" class="select-date" hidden />
+            <label class="icon-label next">
+                <i class="fa-solid fa-chevron-right next-date"></i>
+            </label>
         </div>
 
         <!-- toDo List  -->
@@ -154,8 +170,21 @@
         let today = moment();
         let choseDate = today.format('YYYY-MM-DD');
         $('.title-date').text(choseDate);
-
         const loginUserId = $('#id').text();
+
+        $('.title-date').click(function () {
+            $('.select-date').trigger('click');
+        });
+        flatpickr('.select-date', {
+            locale: 'ko',
+            onChange: function (selectedDates, dateStr) {
+                $('.title-date').text(dateStr);
+                gettoDoList(loginUserId, dateStr);
+            },
+        });
+
+        gettoDoList(loginUserId, choseDate);
+
         $('.filter-btn').click(function () {
             const date = $(this).data('period');
             if (date === 'today') {
@@ -164,13 +193,11 @@
                 $('.title-date').text(choseDate);
                 gettoDoList(loginUserId, choseDate);
             } else if (date === 'week') {
-                generalAlert('현재 개발중입니다.')
+                generalAlert('현재 개발중입니다.');
             } else if (date === 'month') {
-                generalAlert('현재 개발중입니다.')
+                generalAlert('현재 개발중입니다.');
             }
         });
-
-        gettoDoList(loginUserId, choseDate);
 
         // 전날로 이동
         $('.icon-label.prev').click(function () {
@@ -197,7 +224,7 @@
             }
 
             const temp = `temp-${moment(Date()).format('YYYY-MM-DDhh:mm:ss')}`;
-            const date = choseDate;
+            const date = $('.title-date').text();
             const text = $('.input-todo').val();
             const list = `<div class="todo-item">
                             <input type="checkbox" id=${temp} data-temp=${temp} class="todo-checkbox" />
@@ -247,7 +274,7 @@
     });
 
     function gettoDoList(loginUserId, choseDate) {
-        console.log(loginUserId)
+        console.log(loginUserId);
         $.ajax({
             url: `/api/todolist/${loginUserId}`,
             method: 'GET',

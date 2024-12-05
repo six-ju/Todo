@@ -1,4 +1,7 @@
 $(function () {
+    $(document).on('removeClass', '.flatpickr-calendar',function(){
+
+    })
     // 모달 닫기 이벤트
     $('.alert-close, .alert-btn.cancel').on('click', function () {
         $('.custom-alert').hide();

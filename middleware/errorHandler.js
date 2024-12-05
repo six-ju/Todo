@@ -1,5 +1,4 @@
 module.exports = (err, req, res, next) => {
-    console.log(213)
     if(err.name == 'CookieNotExistError') {
         return res.redirect('/login');
     }
