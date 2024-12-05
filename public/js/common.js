@@ -24,10 +24,6 @@ $(function () {
     $('.header').click(function(){
         const page = $(this).data('page')
         $(this).removeClass('active')
-        if(page === 'space'){
-            generalAlert('개발 중 입니다. 추후에 오픈 예정')
-            return false
-        }
         location.href = `/${page}`
     })
 
@@ -37,10 +33,6 @@ $(function () {
     }
     $(`.${pathName}`).addClass('active')
 
-    $('.space').click(function(){
-        generalAlert('개발 중 입니다. 추후에 오픈 예정')
-        return false
-    })
 });
 
 // 모달 일반 알림 (취소 버튼 미포함)

@@ -11,6 +11,16 @@ class todolistRepository {
         }
     }
 
+    async getCustomtoDoList(id, choseDate) {
+        try {
+            const [data] = await promisePool.query('select * from TODOLIST where userId = ? AND startDate >= ? AND startDate <= ? ORDER BY startDate', [id, choseDate[0], choseDate[1]]);
+
+            return data;
+        } catch (err) {
+            console.error('Query error:', err);
+        }
+    }
+
     async savetoDolist(listData, userName) {
         try {
             const [data] = await promisePool.query(

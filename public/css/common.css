@@ -170,3 +170,7 @@ body {
         left: 20% !important;
     }
 }
+
+.active{
+    color: white;
+}

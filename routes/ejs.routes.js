@@ -36,4 +36,12 @@ router.get('/mypage', auth, (req, res, next) => {
     }
 });
 
+router.get('/space', auth, (req, res, next) => {
+    try {
+        res.render('index.ejs', { components: 'space-service/index' });
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = router;
