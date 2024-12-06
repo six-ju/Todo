@@ -1,128 +1,120 @@
-<style>
-    .mypage-wrap {
-        display: flex;
-        border: 1px solid #d2b4de;
-        border-radius: 15px;
-        margin-top: 4vh;
-        font-size: 1.2em;
-        padding: 3.4px;
-        align-items: center;
-        flex-direction: column;
-    }
+<link rel="stylesheet" href="/css/space.css" />
 
-    input {
-        border: 1px solid #d9d9d9;
-        border-radius: 15px;
-        font-size: 0.8em;
-        padding: 13.4px;
-    }
-
-    .section {
-        margin-top: 4vh;
-        text-align: left;
-    }
-
-    .mypage-wrap .section:last-child {
-        margin: 4vh;
-        border: 1px solid #d9d9d9;
-        border-radius: 15px;
-        padding: 10px 50px;
-        color: white;
-        background-color: var(--color-header-background);
-        transition: all 0.3s ease;
-    }
-
-    .mypage-wrap .section:last-child:hover {
-        border: 1px solid var(--color-header-background); /* 테두리 색상 변경 */
-        background-color: #c585df; /* 배경색 변경 */
-        transform: scale(1.05); /* 크기 약간 확대 */
-        cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
-    }
-
-    .section label {
-        width: 97px;
-        display: inline-block;
-    }
-</style>
 <div class="content">
-    <div class="mypage-wrap">
-        <div class="section">
-            <label for="nickname">닉네임</label>
-            <input type="text" id="name" placeholder="NICKNAME" />
+    <div class="space-wrap">
+        <!-- <div class="each-space">
+            <p id="index">1</p>
+            <p id="title">오늘은 야 금요일 집에간다~</p>
+            <p id="createAt">2024-04-10</p>
+        </div> -->
+    </div>
+    <div class="createSpace">
+        <button class="space-create-btn">글쓰기</button>
+    </div>
+</div>
+
+<!-- 모달 -->
+<div class="write-space-place" style="display: none">
+    <div class="modal-content">
+        <div class="flex-container">
+            <p>게시물 작성</p>
+            <span class="close">&times;</span>
         </div>
-        <div class="section">
-            <label for="email">이메일</label>
-            <input type="text" id="email" disabled />
+        <div class="content-title-wrap">
+            <input type="text" name="content-title" id="contentTitle" placeholder="제목" />
         </div>
-        <div class="section">
-            <label for="social">소셜</label>
-            <input type="text" id="social" disabled />
+        <div class="content-input-wrap">
+            <textarea class="content-textarea" placeholder="내용을 입력해주세요."></textarea>
         </div>
-        <div class="section">
-            <label for="insta">INSTAGRAM</label>
-            <input type="text" id="insta" placeholder="INSTAGRAM" />
-        </div>
-        <div class="section">
-            <label for="createdDate">가입일</label>
-            <input type="text" id="createdDate" disabled />
-        </div>
-        <div class="section">
-            <div class="save-btn">저장</div>
+        <div class="conten-sace-wrap">
+            <button class="save-btn button-save">저장</button>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function () {
         const id = $('#id').text();
-        getuserInfoById(id);
+        const name = $('#name').text();
+        getSpaceList();
+        $('.space-create-btn').click(function () {
+            $('.write-space-place').fadeIn();
+        });
 
+        // 모달창 닫힘
+        $('.write-space-place').click(function () {
+            $(this).fadeOut();
+        });
+
+        // 모달창 닫힘 방지
+        $('.modal-content').click(function (event) {
+            event.stopPropagation();
+        });
+
+        // 모달창 닫힘
+        $('.close').click(function () {
+            $('.write-space-place').fadeOut();
+        });
+
+        // 글쓰기
         $('.save-btn').click(function () {
-            const name = $('#name').val();
-            const insta = $('#insta').val();
+            const title = $('#contentTitle').val();
+            const content = $('.content-textarea').val();
 
-            if (!name) {
-                generalAlert('닉네임을 입력해주세요.');
+            if (!title) {
+                generalAlert('제목을 입력해주세요.');
+                return false;
+            } else if (!content) {
+                generalAlert('내용을 입력해주세요.');
                 return false;
             }
 
-            const info = {
+            const data = {
+                id,
                 name,
-                insta,
+                title,
+                content,
             };
 
-            saveInfoById(id, info);
+            saveSpace(data);
         });
     });
 
-    function getuserInfoById(id) {
+    function getSpaceList() {
         $.ajax({
-            url: `/api/mypage/${id}`,
+            url: '/api/space',
             method: 'GET',
             success: function (data) {
-                data = data[0];
-                const createdAt = moment(data.createdAt).format('YYYY-MM-DD');
-                $('#name').val(data.name);
-                $('#email').val(data.email);
-                $('#social').val(data.social);
-                $('#insta').val(data.instaUrl ?? '');
-                $('#createdDate').val(createdAt);
+                let list = ``;
+                data.forEach((each, index) => {
+                    list += `
+                            <div class="each-space">
+                                <p id="index" value=${each.id}>${index + 1}</p>
+                                <p id="title">${each.title}</p>
+                                <p id="createAt">${moment(each.createAt).format('YYYY-MM-DD')}</p>
+                            </div>
+                    `;
+                });
+                $('.space-wrap').append(list);
             },
-            error: function (error) {
-                generalAlert(error.responseJSON);
+            error: function (err) {
+                generalAlert(err.responseJSON);
             },
         });
     }
 
-    function saveInfoById(id, info) {
+    function saveSpace(data) {
         $.ajax({
-            url: `/api/mypage/${id}`,
-            method: 'PATCH',
-            data: { info },
-            success: function () {
-                generalAlert('수정되었습니다.');
+            url: '/api/space',
+            method: 'POST',
+            data: data,
+            success: function (data) {
+                generalAlert('게시물 등록되었습니다.',function(){
+                    $('.write-space-place').fadeOut();
+                    getSpaceList();
+                });
             },
-            error: function (error) {
-                generalAlert(error.responseJSON);
+            error: function (err) {
+                generalAlert(err.responseJSON);
             },
         });
     }
