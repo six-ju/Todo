@@ -10,11 +10,15 @@
         flex-direction: column;
     }
 
-    input {
+    input ,select {
         border: 1px solid #d9d9d9;
         border-radius: 15px;
         font-size: 0.8em;
         padding: 13.4px;
+    }
+
+    .section select {
+        padding: 13.4px 19%;
     }
 
     .section {
@@ -59,6 +63,10 @@
             <input type="text" id="social" disabled />
         </div>
         <div class="section">
+            <label for="remark">설명</label>
+            <input type="text" id="remark" maxlength="12" placeholder="10자로 소개하기"/>
+        </div>
+        <div class="section">
             <label for="insta">INSTAGRAM</label>
             <input type="text" id="insta" placeholder="INSTAGRAM" />
         </div>
@@ -77,8 +85,10 @@
         getuserInfoById(id);
 
         $('.save-btn').click(function () {
+            console.log(123)
             const name = $('#name').val();
             const insta = $('#insta').val();
+            const remark = $('#remark').val();
 
             if (!name) {
                 generalAlert('닉네임을 입력해주세요.');
@@ -88,10 +98,12 @@
             const info = {
                 name,
                 insta,
+                remark,
             };
 
             saveInfoById(id, info);
         });
+
     });
 
     function getuserInfoById(id) {
@@ -105,6 +117,7 @@
                 $('#email').val(data.email);
                 $('#social').val(data.social);
                 $('#insta').val(data.instaUrl ?? '');
+                $('#remark').val(data.remark ?? '');
                 $('#createdDate').val(createdAt);
             },
             error: function (error) {

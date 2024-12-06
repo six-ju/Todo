@@ -14,8 +14,8 @@ class mypageRepository {
     async saveInfoById(id, info) {
         try {
             const [data] = await promisePool.query(
-                'update USER set name = ? ,instaUrl = ? where id = ?',
-                [info.name, info.insta, id],
+                'update USER set name = ? ,instaUrl = ? , remark = ? where id = ?',
+                [info.name, info.insta, info.remark, id],
             );
 
             return data;

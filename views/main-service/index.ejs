@@ -136,9 +136,15 @@
 </style>
 <div class="content">
     <div class="date-filter">
-        <button class="filter-btn active" data-period="today">TODAY</button>
-        <button class="filter-btn" data-period="custom">CUSTOM</button>
-        <button class="filter-btn" data-period="luck">Today's Luck</button>
+        <button class="filter-btn active" data-period="today">
+            <i class="fa-solid fa-calendar-day"></i> TODAY
+        </button>
+        <button class="filter-btn" data-period="custom">
+            <i class="fa-solid fa-calendar-week"></i> CUSTOM
+        </button>
+        <button class="filter-btn" data-period="following">
+            <i class="fa-solid fa-user-plus"></i> FOLLOWING
+        </button>
     </div>
     <div class="todo-list">
         <div class="title">
@@ -147,7 +153,7 @@
             </label>
             <p class="title-date">ToDo List</p>
             <input type="text" class="select-date" hidden />
-            <p class="range" hidden>~</p>
+            <p class="range" hidden>-</p>
             <p class="title-end-date" hidden>Select Date</p>
             <input type="text" class="select-end-date" hidden />
             <label class="icon-label next">
@@ -195,13 +201,13 @@
             position: 'auto center',
             disableMobile: true,
             onChange: function (selectedDates, dateStr) {
-                const prevDate = $('.title-date').text()
-                if(prevDate > dateStr){
-                    generalAlert('날짜를 다시 입력해주세요.')
-                    return false
+                const prevDate = $('.title-date').text();
+                if (prevDate > dateStr) {
+                    generalAlert('날짜를 다시 입력해주세요.');
+                    return false;
                 }
                 $('.title-end-date').text(dateStr);
-                dateStr = [prevDate, dateStr]
+                dateStr = [prevDate, dateStr];
                 gettoDoList(loginUserId, dateStr);
             },
         });
@@ -223,7 +229,7 @@
                 $('.prev, .next').hide();
                 $('.range, .title-end-date').show();
                 $(this).addClass('active');
-            } else if (date === 'luck') {
+            } else if (date === 'following') {
                 $(this).addClass('active');
                 generalAlert('현재 개발중입니다.');
             }
