@@ -36,13 +36,13 @@ body {
     font-optical-sizing: auto;
     font-style: normal;
     font-size: clamp(13px, 0.7vw, 16px);
-    overflow: hidden;
-    -ms-overflow-style: none;
+    /* overflow: hidden;
+    -ms-overflow-style: none; */
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     display: none;
-}
+} */
 
 .content {
     background-color: #edeef3;
