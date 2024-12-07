@@ -1,116 +1,135 @@
 <link rel="stylesheet" href="/css/space.css" />
 
 <div class="content">
-    <div class="space-wrap"></div>
-    <div class="createSpace">
-        <button class="space-create-btn">글쓰기</button>
-    </div>
+  <div class="space-wrap"></div>
+  <div class="createSpace">
+    <button class="space-create-btn">글쓰기</button>
+  </div>
 </div>
 
 <!-- 모달 -->
 <div class="write-space-place" style="display: none">
-    <div class="modal-content">
-        <div class="flex-container">
-            <p>게시물 작성</p>
-            <span class="close">&times;</span>
-        </div>
-        <div class="content-title-wrap">
-            <input type="text" name="content-title" id="contentTitle" placeholder="제목" />
-        </div>
-        <div class="content-input-wrap">
-            <textarea class="content-textarea" placeholder="내용을 입력해주세요."></textarea>
-        </div>
-        <div class="conten-sace-wrap">
-            <button class="save-btn button-save">저장</button>
-        </div>
+  <div class="modal-content">
+    <div class="flex-container">
+      <p>게시물 작성</p>
+      <span class="close">&times;</span>
     </div>
+    <div class="content-title-wrap">
+      <input
+        type="text"
+        name="content-title"
+        id="contentTitle"
+        placeholder="제목"
+      />
+    </div>
+    <div class="content-input-wrap">
+      <textarea
+        class="content-textarea"
+        placeholder="내용을 입력해주세요."
+      ></textarea>
+    </div>
+    <div class="conten-sace-wrap">
+      <button class="save-btn button-save">저장</button>
+    </div>
+  </div>
 </div>
 <script>
-    $(document).ready(function () {
-        const id = $('#id').text();
-        const name = $('#name').text();
-        getSpaceList();
-        $('.space-create-btn').click(function () {
-            $('.write-space-place').fadeIn();
-        });
+  $(document).ready(function () {
+    const id = $("#id").text();
+    const name = $("#name").text();
 
-        // 모달창 닫힘
-        $('.write-space-place').click(function () {
-            $(this).fadeOut();
-        });
-
-        // 모달창 닫힘 방지
-        $('.modal-content').click(function (event) {
-            event.stopPropagation();
-        });
-
-        // 모달창 닫힘
-        $('.close').click(function () {
-            $('.write-space-place').fadeOut();
-        });
-
-        // 글쓰기
-        $('.save-btn').click(function () {
-            const title = $('#contentTitle').val();
-            const content = $('.content-textarea').val();
-
-            if (!title) {
-                generalAlert('제목을 입력해주세요.');
-                return false;
-            } else if (!content) {
-                generalAlert('내용을 입력해주세요.');
-                return false;
-            }
-
-            const data = {
-                id,
-                name,
-                title,
-                content,
-            };
-
-            saveSpace(data);
-        });
+    getSpaceList();
+    $(".space-create-btn").click(function () {
+      $(".write-space-place").fadeIn(200);
     });
 
-    function getSpaceList() {
-        $.ajax({
-            url: '/api/space',
-            method: 'GET',
-            success: function (data) {
-                let list = ``;
-                data.forEach((each, index) => {
-                    list += `
-                            <div class="each-space">
-                                <p id="index" value=${each.id}>${index + 1}</p>
-                                <p id="title">${each.title}</p>
-                                <p id="createAt">${moment(each.createAt).format('YYYY-MM-DD')}</p>
-                            </div>
-                    `;
-                });
-                $('.space-wrap').append(list);
-            },
-            error: function (err) {
-                generalAlert(err.responseJSON);
-            },
-        });
-    }
+    // 모달창 닫힘
+    $(".write-space-place").click(function () {
+      $(this).fadeOut(200);
+    });
 
-    function saveSpace(data) {
-        $.ajax({
-            url: '/api/space',
-            method: 'POST',
-            data: data,
-            success: function (data) {
-                generalAlert('게시물 등록되었습니다.',function(){
-                    $('.write-space-place').fadeOut();
-                    $('.space-wrap').remove();
-                    getSpaceList();
-                });
-            },
-            error: function (err) {
-                generalAlert(err.responseJSON);
-            },
+    // 모달창 닫힘 방지
+    $(".modal-content").click(function (event) {
+      event.stopPropagation();
+    });
+
+    // 모달창 닫힘
+    $(".close").click(function () {
+      $(".write-space-place").fadeOut(200);
+    });
+
+    // 글쓰기
+    $(".save-btn").click(function () {
+      const title = $("#contentTitle").val();
+      const content = $(".content-textarea").val();
+
+      if (!title) {
+        generalAlert("제목을 입력해주세요.");
+        return false;
+      } else if (!content) {
+        generalAlert("내용을 입력해주세요.");
+        return false;
+      }
+
+      const data = {
+        id,
+        name,
+        title,
+        content,
+      };
+
+      saveSpace(data);
+    });
+
+    // 게시물 detail이동
+    $(document).on("click", "#title", function () {
+      const id = $(this).prev().data("id");
+      location.href = `/space/post/${id}`;
+    });
+  });
+
+  function getSpaceList() {
+    $.ajax({
+      url: "/api/space",
+      method: "GET",
+      success: function (data) {
+        let list = ``;
+        data.forEach((each, index) => {
+          list += `
+                    <div class="each-space">
+                        <p id="index" data-id=${each.id}>${index + 1}</p>
+                        <p id="title">${each.title}</p>
+                        <p id="createAt">${moment(each.createAt).format(
+                          "YYYY-MM-DD"
+                        )}</p>
+                    </div>
+                    `;
         });
-    }
+        $(".space-wrap").append(list);
+      },
+      error: function (err) {
+        generalAlert(err.responseJSON);
+      },
+    });
+  }
+
+  function saveSpace(data) {
+    $.ajax({
+      url: "/api/space",
+      method: "POST",
+      data: data,
+      success: function (data) {
+        generalAlert("게시물 등록되었습니다.", function () {
+          $(".write-space-place").fadeOut(200);
+          $(".space-wrap .each-space").remove();
+          $("#contentTitle").val("");
+          $(".content-textarea").val("");
+          getSpaceList();
+        });
+      },
+      error: function (err) {
+        generalAlert(err.responseJSON);
+      },
+    });
+  }
 </script>
