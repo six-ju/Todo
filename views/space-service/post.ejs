@@ -65,12 +65,14 @@
   .option {
     position: absolute;
     left: 83%;
+    background-color: #edeef3;
   }
 
   .deleted-btn {
     border: 0;
     cursor: pointer;
-    font-size: 1.3em;
+    font-size: 1.2em;
+    color : black
   }
 </style>
 
@@ -123,6 +125,7 @@
       url: `/api/space/${postId}`,
       method: "GET",
       success: function (data) {
+        $(".comment-wrap").remove();
         const content = data.content
         const comment = data.comment
         $(".title-wrap").text(content.title);
