@@ -125,7 +125,7 @@
       url: `/api/space/${postId}`,
       method: "GET",
       success: function (data) {
-        $(".comment-wrap").remove();
+        $(".comment-wrap .each-comment-wrap").remove();
         const content = data.content
         const comment = data.comment
         $(".title-wrap").text(content.title);
