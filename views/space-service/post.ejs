@@ -1,0 +1,203 @@
+<style>
+  .title-wrap,
+  .content-wrap,
+  .each-comment-wrap,
+  .comment-input-wrap {
+    display: flex;
+    border: 1px solid #d2b4de;
+    border-radius: 15px 15px 0 0;
+    margin-top: 4vh;
+    font-size: 1.2em;
+    padding: 13.4px;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .content-wrap {
+    border-radius: 0;
+    margin-top: 0;
+    border-top: 0;
+    height: 163px;
+    max-height: 163px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .comment-input-wrap {
+    border-radius: 0 0 15px 15px;
+    margin-top: 0;
+    border-top: 0;
+    padding: 13.4px 0 0 0;
+  }
+
+  .each-comment-wrap {
+    border-radius: 15px;
+    margin-top: 1vh;
+    padding: 13.4px;
+  }
+
+  .save-btn {
+    margin: 2vh;
+  }
+
+  .input-comment {
+    border: 0;
+    border-bottom: 1px solid #d2b4de;
+    background-color: #edeef3;
+    outline: none;
+    width: 260px;
+    padding: 10px;
+  }
+
+  .nickName-area {
+    border-bottom: 1px solid #d2b4de;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .nickName-area p:nth-child(1) {
+    margin: 0 0 10px 0;
+  }
+  .nickName-area p:nth-child(2) {
+    margin: 0;
+    color: #bcbaba;
+  }
+
+  .option {
+    position: absolute;
+    left: 83%;
+  }
+
+  .deleted-btn {
+    border: 0;
+    cursor: pointer;
+    font-size: 1.3em;
+  }
+</style>
+
+<div class="content">
+  <div class="title-wrap"></div>
+  <div class="content-wrap"></div>
+  <div class="comment-input-wrap">
+    <input
+      type="text"
+      class="input-comment"
+      max="20"
+      placeholder="20자까지 입력가능합니다."
+    />
+    <button class="save-btn">저장</button>
+  </div>
+  <div class="comment-wrap"></div>
+</div>
+<script>
+  $(document).ready(function () {
+    const id = $("#id").text();
+    const name = $("#name").text();
+    const postId = location.pathname.split("/").pop();
+
+    // 게시글과 댓글 다 가져옴
+    getPostInfo(postId);
+
+    //댓글저장
+    $(".save-btn").click(function () {
+      const comment = $(".input-comment").val();
+
+      if (comment.replace(/\s/g, "") === "") {
+        generalAlert("댓글을 입력해주세요.");
+        $(".input-comment").val("");
+        return false;
+      }
+
+      const data = {
+        id,
+        name,
+        comment,
+        postId,
+      };
+
+      saveComment(data);
+    });
+  });
+
+  function getPostInfo(postId) {
+    $.ajax({
+      url: `/api/space/${postId}`,
+      method: "GET",
+      success: function (data) {
+        $(".title-wrap").text(data[0].title);
+        $(".content-wrap").text(data[0].content);
+        let list = ``;
+        data.forEach((data) => {
+          list += `
+                <div class="each-comment-wrap">
+                    <div class="option">
+                        <button class="deleted-btn" data-id=${
+                          data.id
+                        }>&times;</button>
+                    </div>
+                    <div class="nickName-area">
+                        <p class="nickName">${data.name}</p>
+                        <p class="createdDate">${
+                          data.createdAt ? timeDifference(data.createdAt) : ""
+                        }</p>
+                    </div>
+                    <p class="comment">${data.comment}</p>
+                </div>
+            `;
+        });
+        $(".comment-wrap").append(list);
+      },
+      error: function (error) {
+        generalAlert(error.responseJSON);
+      },
+    });
+  }
+
+  function saveComment(total) {
+    $.ajax({
+      url: "/api/space/comment",
+      method: "POST",
+      data: total,
+      success: function (data) {
+        $(".input-comment").val("");
+      },
+      error: function (error) {
+        generalAlert(error.responseJSON);
+      },
+    });
+  }
+
+  function getCommentList(postId) {
+    $.ajax({
+      url: `/api/space/comment`,
+      method: "GET",
+      success: function (data) {
+        $(".input-comment").val("");
+      },
+      error: function (error) {
+        generalAlert(error.responseJSON);
+      },
+    });
+  }
+
+  // 댓글 작성 시간 계산
+  function timeDifference(isoTime) {
+    const now = new Date(); // 현재 시간
+    const past = new Date(isoTime); // 입력받은 ISO 시간
+    const diffInMs = now - past; // 시간 차이 (밀리초)
+
+    const diffInSeconds = Math.floor(diffInMs / 1000); // 초 단위
+    const diffInMinutes = Math.floor(diffInSeconds / 60); // 분 단위
+    const diffInHours = Math.floor(diffInMinutes / 60); // 시간 단위
+
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds}초 전 작성`;
+    } else if (diffInMinutes < 60) {
+      return `${diffInMinutes}분 전 작성`;
+    } else if (diffInHours < 24) {
+      return `${diffInHours}시간 전 작성`;
+    } else {
+      const diffInDays = Math.floor(diffInHours / 24); // 일 단위
+      return `${diffInDays}일 전 작성`;
+    }
+  }
+</script>

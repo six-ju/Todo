@@ -10,7 +10,7 @@ class AuthRepository {
                 'SELECT * FROM USER WHERE EMAIL = ?',
                 userInfo.EMAIL,
             );
-            return data;
+            return data[0];
         } catch (error) {
             throw error;
         }

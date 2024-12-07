@@ -50,6 +50,7 @@ class AuthController {
                 await this.login(req, res, userInfo);
             }
         } catch (error) {
+            console.log(error);
             res.status(401).send('Kakao login failed!');
         }
     };
@@ -61,38 +62,42 @@ class AuthController {
     };
 
     naverCallback = async (req, res, next) => {
-        const { code, state } = req.query;
+        try {
+            const { code, state } = req.query;
 
-        const tokenResponse = await axios.get('https://nid.naver.com/oauth2.0/token', {
-            params: {
-                grant_type: 'authorization_code',
-                client_id: process.env.NAVER_CLIENT_ID,
-                client_secret: process.env.NAVER_CLIENT_SECRET,
-                redirect_uri: process.env.NAVER_REDIRECT_URI,
-                code: code,
-                state: state,
-            },
-        });
+            const tokenResponse = await axios.get('https://nid.naver.com/oauth2.0/token', {
+                params: {
+                    grant_type: 'authorization_code',
+                    client_id: process.env.NAVER_CLIENT_ID,
+                    client_secret: process.env.NAVER_CLIENT_SECRET,
+                    redirect_uri: process.env.NAVER_REDIRECT_URI,
+                    code: code,
+                    state: state,
+                },
+            });
 
-        const { access_token, token_type } = tokenResponse.data;
+            const { access_token, token_type } = tokenResponse.data;
 
-        // 사용자 정보 요청
-        const userInfoResponse = await axios.get('https://openapi.naver.com/v1/nid/me', {
-            headers: {
-                Authorization: `${token_type} ${access_token}`,
-            },
-        });
+            // 사용자 정보 요청
+            const userInfoResponse = await axios.get('https://openapi.naver.com/v1/nid/me', {
+                headers: {
+                    Authorization: `${token_type} ${access_token}`,
+                },
+            });
 
-        const data = userInfoResponse.data;
-        if (data.message === 'success') {
-            let userInfo = {
-                NAME: data.response.name,
-                EMAIL: data.response.email,
-                SOCIALTYPE: 'NAVER',
-            };
+            const data = userInfoResponse.data;
+            if (data.message === 'success') {
+                let userInfo = {
+                    NAME: data.response.name,
+                    EMAIL: data.response.email,
+                    SOCIALTYPE: 'NAVER',
+                };
 
-            userInfo = await this.AuthService.user(userInfo);
-            await this.login(req, res, userInfo);
+                userInfo = await this.AuthService.user(userInfo);
+                await this.login(req, res, userInfo);
+            }
+        } catch (error) {
+            next(error);
         }
     };
 
@@ -151,6 +156,7 @@ class AuthController {
             secure: true,
             signed: true,
         });
+
         res.redirect('/');
     };
 

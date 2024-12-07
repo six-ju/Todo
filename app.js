@@ -24,10 +24,12 @@ const routes = require("./routes");
 const { auth } = require("./middleware/auth");
 const authRouter = require("./routes/auth.routes");
 const ejsRouter = require("./routes/ejs.routes");
+const errorHandler = require("./middleware/errorHandler.js");
 
 app.use("/auth", authRouter);
 app.use("/api", auth, routes);
 app.use(ejsRouter);
+app.use(errorHandler);
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");

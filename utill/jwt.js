@@ -5,14 +5,14 @@ module.exports = {
   sign: (user) => {
     const payload = {
       user: {
-        ID : user[0].id,
-        NAME: user[0].name,
-        SOCIALTYPE: user[0].social,
-        EMAIL: user[0].email,
+        ID : user.id,
+        NAME: user.name,
+        SOCIALTYPE: user.social,
+        EMAIL: user.email,
       },
     };
     return jwt.sign(payload, secret, {
-      expiresIn: "1d",
+      expiresIn: "1h",
       algorithm: "HS256",
     });
   },

@@ -1,13 +1,9 @@
-const db = require("../database/db");
-const { promisePool } = require("../config/database");
+const { promisePool } = require('../config/database');
 
 class todolistRepository {
-  async getUserInfo(id) {
-    try {
-      const [data] = await promisePool.query(
-        "select * from TODOLIST where userId = ? ",
-        id
-      );
+    async getUserInfo(id) {
+        try {
+            const [data] = await promisePool.query('select * from TODOLIST where userId = ? ', id);
 
       return data;
     } catch (err) {
@@ -47,13 +43,9 @@ class todolistRepository {
     }
   }
 
-  // CASE 문으로 통한 조건문 작성
-  async completetoDo(id) {
-    try {
-      const [data] = await promisePool.query(
-        "UPDATE TODOLIST SET COMPLETEDATE = CASE WHEN COMPLETEDATE IS NULL THEN CURDATE() ELSE NULL END WHERE ID = ? ",
-        id
-      );
+    async completetoDo(id) {
+        try {
+            const [data] = await promisePool.query('UPDATE TODOLIST SET COMPLETEDATE = CURDATE() WHERE ID = ? ', id);
 
       return data;
     } catch (err) {
