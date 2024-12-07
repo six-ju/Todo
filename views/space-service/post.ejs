@@ -114,7 +114,7 @@
         postId,
       };
 
-      saveComment(data);
+      saveComment(data, postId);
     });
   });
 
@@ -123,12 +123,14 @@
       url: `/api/space/${postId}`,
       method: "GET",
       success: function (data) {
-        $(".title-wrap").text(data[0].title);
-        $(".content-wrap").text(data[0].content);
-        let list = ``;
-        data.forEach((data) => {
-          list += `
-                <div class="each-comment-wrap">
+        const content = data.content
+        const comment = data.comment
+        $(".title-wrap").text(content.title);
+        $(".content-wrap").text(content.content);
+        let list = '';
+
+        comment.forEach((data) => {
+          list += `<div class="each-comment-wrap">
                     <div class="option">
                         <button class="deleted-btn" data-id=${
                           data.id
@@ -152,13 +154,14 @@
     });
   }
 
-  function saveComment(total) {
+  function saveComment(total, postId) {
     $.ajax({
       url: "/api/space/comment",
       method: "POST",
       data: total,
       success: function (data) {
         $(".input-comment").val("");
+        getPostInfo(postId)
       },
       error: function (error) {
         generalAlert(error.responseJSON);
@@ -181,10 +184,10 @@
 
   // 댓글 작성 시간 계산
   function timeDifference(isoTime) {
+    console.log(isoTime)
     const now = new Date(); // 현재 시간
     const past = new Date(isoTime); // 입력받은 ISO 시간
     const diffInMs = now - past; // 시간 차이 (밀리초)
-
     const diffInSeconds = Math.floor(diffInMs / 1000); // 초 단위
     const diffInMinutes = Math.floor(diffInSeconds / 60); // 분 단위
     const diffInHours = Math.floor(diffInMinutes / 60); // 시간 단위

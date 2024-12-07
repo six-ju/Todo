@@ -26,23 +26,28 @@ class spaceService {
   getPostInfo = async (id) => {
     try {
       let result = await this.spaceRepository.getPostInfo(id);
-      result = result.reduce((acc, item) => {
-        if (acc.length === 0) {
-          const content = { title: item.title, content: item.content };
-          acc.push(content);
-        }
+      result = result.reduce(
+        (acc, item) => {
+          if (!acc.content) {
+            acc.content = {
+              title: item.title,
+              content: item.content,
+            };
+          }
 
-        let comment = {
-          userId: item.usrid,
-          name: item.name,
-          comment: item.comment,
-          createdAt: item.createdAt,
-        };
+          if (item.comment) {
+            acc.comment.push({
+              userId: item.usrid,
+              name: item.name,
+              comment: item.comment,
+              createdAt: item.createdAt,
+            });
+          }
 
-        acc.push(comment);
-
-        return acc;
-      }, []);
+          return acc;
+        },
+        { content: null, comment: [] }
+      );
 
       return result;
     } catch (error) {

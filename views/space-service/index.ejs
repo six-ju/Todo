@@ -93,10 +93,9 @@
       url: "/api/space",
       method: "GET",
       success: function (data) {
-        let list = ``;
+        let list = '';
         data.forEach((each, index) => {
-          list += `
-                    <div class="each-space">
+          list += `<div class="each-space">
                         <p id="index" data-id=${each.id}>${index + 1}</p>
                         <p id="title">${each.title}</p>
                         <p id="createAt">${moment(each.createAt).format(
