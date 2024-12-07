@@ -66,6 +66,13 @@
   padding: 26px;
 }
 
+@media (max-width: 600px) {
+  .modal-content {
+    width: 70% !important; 
+    height: 43% !important;
+  }
+}
+
 .write-space-place {
   position: fixed;
   top: 0;
