@@ -1,13 +1,7 @@
 <link rel="stylesheet" href="/css/space.css" />
 
 <div class="content">
-    <div class="space-wrap">
-        <!-- <div class="each-space">
-            <p id="index">1</p>
-            <p id="title">오늘은 야 금요일 집에간다~</p>
-            <p id="createAt">2024-04-10</p>
-        </div> -->
-    </div>
+    <div class="space-wrap"></div>
     <div class="createSpace">
         <button class="space-create-btn">글쓰기</button>
     </div>
@@ -110,6 +104,7 @@
             success: function (data) {
                 generalAlert('게시물 등록되었습니다.',function(){
                     $('.write-space-place').fadeOut();
+                    $('.space-wrap').remove();
                     getSpaceList();
                 });
             },
