@@ -3,7 +3,7 @@ const { promisePool } = require('../config/database');
 class spaceRepository {
     async getSpaceList() {
         try {
-            const [data] = await promisePool.query('select * from SPACE ORDER BY createdAt DESC');
+            const [data] = await promisePool.query('select * from SPACE ORDER BY CASE WHEN userid = 18 THEN 0 ELSE 1 END, createdAt DESC');
 
             return data;
         } catch (err) {
