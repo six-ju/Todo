@@ -26,6 +26,7 @@ class spaceService {
   getPostInfo = async (id) => {
     try {
       let result = await this.spaceRepository.getPostInfo(id);
+      console.log(result)
       result = result.reduce(
         (acc, item) => {
           if (!acc.content) {
@@ -37,6 +38,7 @@ class spaceService {
 
           if (item.comment) {
             acc.comment.push({
+                id : item.commentId,
               userId: item.usrid,
               name: item.name,
               comment: item.comment,
@@ -58,6 +60,16 @@ class spaceService {
   saveComment = async (data) => {
     try {
       const result = await this.spaceRepository.saveComment(data);
+
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  deleteComment = async (commentId) => {
+    try {
+      const result = await this.spaceRepository.deleteComment(commentId);
 
       return result;
     } catch (error) {

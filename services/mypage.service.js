@@ -22,6 +22,26 @@ class mypageService {
             throw error;
         }
     };
+
+    getMyPostById = async (id) => {
+        try {
+            const data = await this.mypageRepository.getMyPostById(id);
+
+            return data;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    deletePost = async (id,userId) => {
+        try {
+            const data = await this.mypageRepository.deletePost(id, userId);
+
+            return data;
+        } catch (error) {
+            throw error;
+        }
+    };
 }
 
 module.exports = mypageService;

@@ -23,6 +23,29 @@ class mypageRepository {
             throw err;
         }
     }
+
+    async getMyPostById(id) {
+        try {
+            const [data] = await promisePool.query('select * from SPACE where userId = ? ', id);
+
+            return data;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    async deletePost(id, userId) {
+        try {
+            const [data] = await promisePool.query(
+                'delete from SPACE where userId = ? AND id = ?',
+                [userId, id],
+            );
+
+            return data;
+        } catch (err) {
+            throw err;
+        }
+    }
 }
 
 module.exports = mypageRepository;

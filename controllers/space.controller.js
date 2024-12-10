@@ -50,6 +50,19 @@ class SpaceController {
       return res.status(400).json({ message: error });
     }
   };
+
+  deleteComment = async (req, res, next) => {
+    try {
+      const {commentId} = req.body;
+
+      const result = await this.SpaceService.deleteComment(commentId);
+
+      return res.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ message: error });
+    }
+  };
 }
 
 module.exports = SpaceController;

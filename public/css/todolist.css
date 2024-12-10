@@ -1,0 +1,136 @@
+.date-filter {
+    text-align: center;
+    display: flex;
+    gap: 15px;
+  }
+
+  .filter-btn {
+    padding: 0.7em;
+    flex: 1;
+    margin: 0;
+    border: 0;
+    border-radius: 15px;
+    background-color: var(--color-header-background);
+  }
+
+  .filter-btn:hover {
+    background-color: var(--color-header-background);
+    cursor: pointer;
+  }
+
+  .todo-list .title {
+    display: flex;
+    border: 1px solid #d2b4de;
+    border-radius: 15px 15px 0 0;
+    margin-top: 4vh;
+    font-size: 1.2em;
+    justify-content: space-around;
+    padding: 3.4px;
+    align-items: center;
+  }
+
+  .list-wrap {
+    height: 500px;
+    border: 1px solid #d2b4de;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  @media (max-height: 900px) {
+    .list-wrap {
+      height: 440px;
+    }
+  }
+
+  .todo-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+  }
+
+  /* 체크박스 스타일 */
+  .todo-checkbox {
+    margin-right: 15px;
+    transform: scale(1.2);
+  }
+
+  /* 텍스트 스타일 */
+  .todo-text {
+    font-size: 1.2em;
+    transition: color 0.4s ease, text-decoration 0.4s ease;
+  }
+
+  /* 체크박스가 체크되었을 때 효과 */
+  .todo-checkbox:checked + .todo-text {
+    color: #999;
+    text-decoration: line-through;
+  }
+
+  .input-todo {
+    width: 100%;
+    margin: 0;
+    border: 1px solid #d2b4de;
+    border-top: 0;
+    padding: 1.1em 1.2em;
+    font-size: 1.2em;
+    background-color: #edeef3;
+    box-sizing: border-box;
+  }
+
+  .text-area {
+    position: relative;
+  }
+
+  .text-area label {
+    position: absolute;
+    right: 20px;
+    top: 16px;
+    font-size: 1.3em;
+  }
+
+  .todo-date {
+    margin: 0 0 0 auto;
+    color: #8f8e8e;
+  }
+
+  .delete-icon {
+    margin: 0 0 0 10px;
+  }
+
+  @keyframes slideOut {
+    0% {
+      transform: translateX(0); /* 초기 위치 */
+      opacity: 1; /* 완전히 보임 */
+    }
+    100% {
+      transform: translateX(100%); /* 오른쪽으로 이동 */
+      opacity: 0; /* 완전히 투명 */
+    }
+  }
+
+  /* 삭제 중일 때 적용할 클래스 */
+  .todo-item.removing {
+    animation: slideOut 0.5s ease forwards; /* 0.5초 동안 오른쪽으로 이동 */
+  }
+
+  .no-list {
+    height: 500px;
+    padding: 42% 0 0 0;
+    box-sizing: border-box;
+    font-size: 1.5em;
+    background-color: #cfcbcb36;
+    color: #636161;
+  }
+
+  .icon-label {
+    width: 20%;
+  }
+
+  .title-date,
+  .title-end-date {
+    border: 1px solid var(--color-header-background);
+    border-radius: 15px;
+    padding: 1% 7%;
+  }
