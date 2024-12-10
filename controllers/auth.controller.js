@@ -149,6 +149,28 @@ class AuthController {
         }
     };
 
+    admin = async (req, res, userInfo) => {
+        try {
+            const { adminKey } = req.body;
+            const isCheck = adminKey === process.env.ADMIN_KEY;
+
+            if (!isCheck) {
+                throw new Error('해당키는 로그인 되지 않습니다.');
+            }
+
+            let userInfo = {
+                id: 18,
+                name: 'admin',
+                email: 'yuk0410@nate.com',
+                social: 'SYSTEM',
+            };
+
+            await this.login(req, res, userInfo);
+        } catch (error) {
+            return res.status(400).json( error.message );
+        }
+    };
+
     login = async (req, res, userInfo) => {
         const accessToken = jwt.sign(userInfo);
         res.cookie('accessToken', accessToken, {

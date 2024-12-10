@@ -20,10 +20,13 @@
         cursor: pointer;
         transition: transform 0.3s ease; /* 마우스 오버 효과 */
     }
-    
-    
+
     img:hover {
         transform: scale(1.1); /* 마우스 오버 시 약간 확대 */
+    }
+
+    .admin-login-wrap {
+        position: absolute;
     }
 </style>
 <div class="login-container">
@@ -62,13 +65,45 @@
         </div>
     </div>
 </div>
+<div class="admin-login-wrap" hidden>
+    <input type="text" />
+    <button class="admin-login">로그인</button>
+</div>
 <script
     src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"
     integrity="sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka"
     crossorigin="anonymous"
 ></script>
 <script>
+    $(function () {
+        let count = 0;
+        $('h1').click(function () {
+            count++;
+            if (count === 3) {
+                $('.admin-login-wrap').show();
+            }
+
+            setTimeout(() => {
+                count = 0;
+            }, 500);
+        });
+
+        $('.admin-login').click(function () {
+            const adminKey = $('input').val();
+            $.ajax({
+                url: '/auth/admin',
+                method: 'POST',
+                data: { adminKey },
+                success: function (data) {
+                    location.href = '/'
+                },
+                error: function (error) {
+                    alert(error.responseJSON);
+                },
+            });
+        });
+    });
     function login(social) {
-        location.href = `/auth/${social}`
+        location.href = `/auth/${social}`;
     }
 </script>

@@ -20,6 +20,9 @@ router.get("/google", authController.google);
 // 콜백 라우트
 router.get("/google/callback", authController.googleCallback);
 
+// admin 로그인 체크 라우트
+router.post("/admin", authController.admin);
+
 // 쿠키 부여
 router.get("/login", authController.login);
 // 로그아웃(쿠키 삭제)
