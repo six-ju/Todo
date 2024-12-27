@@ -1,6 +1,5 @@
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LBKS6BPJ7C"></script>
-
 $(function () {
+  // 구글 애널리틱스 
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
