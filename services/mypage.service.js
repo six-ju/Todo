@@ -42,6 +42,16 @@ class mypageService {
             throw error;
         }
     };
+
+    secessionUser = async (id) => {
+        try {
+            const data = await this.mypageRepository.secessionUser(id);
+
+            return data;
+        } catch (error) {
+            throw error;
+        }
+    };
 }
 
 module.exports = mypageService;

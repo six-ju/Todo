@@ -8,5 +8,6 @@ router.get('/:id', mypageController.getuserInfoById);
 router.get('/post/:id', mypageController.getMyPostById);
 router.patch('/:id', mypageController.saveInfoById);
 router.delete('/:id', mypageController.deletePost);
+router.delete('/user/:id', mypageController.secessionUser);
 
 module.exports = router;

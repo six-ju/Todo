@@ -52,6 +52,18 @@ class MypageController {
         return res.status(400).json({ message: error });
       }
     };
+
+    secessionUser = async (req, res, next) => {
+      try {
+        const { id } = req.params;
+
+        const data = await this.MypageService.secessionUser(id)
+
+        return res.status(200).json( data );
+      } catch (error) {
+        return res.status(400).json({ message: error });
+      }
+    };
 }
 
 module.exports = MypageController;

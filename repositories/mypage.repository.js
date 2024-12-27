@@ -46,6 +46,19 @@ class mypageRepository {
             throw err;
         }
     }
+
+    async secessionUser(id) {
+        try {
+            const [data] = await promisePool.query(
+                'delete from USER where id = ?',
+                id,
+            );
+
+            return data;
+        } catch (err) {
+            throw err;
+        }
+    }
 }
 
 module.exports = mypageRepository;

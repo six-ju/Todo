@@ -106,6 +106,12 @@
         color: black;
     }
 
+    .idDeleted-btn{
+        cursor: pointer;
+        border-bottom: 1px solid #a9a9a9;
+        color: #a9a9a9;
+    }
+
     @keyframes slideOut {
         0% {
             transform: translateX(0); /* 초기 위치 */
@@ -161,6 +167,7 @@
         <div class="section">
             <div class="save-btn">저장</div>
         </div>
+        <div class="idDeleted-btn">탈퇴하기</div>
     </div>
 </div>
 <script>
@@ -210,6 +217,13 @@
                 deletePost(postId, id);
             }, 500);
         });
+
+        $('.idDeleted-btn').click(function(){
+            warningAlert('탈퇴시 작성된 일정과 게시물은 복구 할 수 없습니다. \n 탈퇴하시겠습니까?',
+            function(){
+                secessionUser(id)
+            })
+        })
     });
 
     function getuserInfoById(id) {
@@ -280,6 +294,21 @@
             method: 'DELETE',
             success: function () {
                 getMyPostById(id);
+            },
+            error: function (error) {
+                generalAlert(error.responseJSON);
+            },
+        });
+    }
+
+    function secessionUser(id) {
+        $.ajax({
+            url: `/api/mypage/user/${id}`,
+            method: 'DELETE',
+            success: function () {
+                generalAlert('탈퇴 되었습니다.',function(){
+                    location.href = '/auth/logout'
+                })
             },
             error: function (error) {
                 generalAlert(error.responseJSON);
