@@ -1,4 +1,12 @@
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LBKS6BPJ7C"></script>
+
 $(function () {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LBKS6BPJ7C');
+
   $(document).on("removeClass", ".flatpickr-calendar", function () {});
   // 모달 닫기 이벤트
   $(".alert-close, .alert-btn.cancel").on("click", function () {
